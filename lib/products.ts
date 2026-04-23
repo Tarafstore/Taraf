@@ -197,10 +197,10 @@ export async function getProductBySlug(slug: string): Promise<Product | null> {
   }
 }
 
-export async function getRelatedProducts(product: Product, limit = 4) {
-  if (!product.category) {
-    return [];
-  }
+// export async function getRelatedProducts(product: Product, limit = 4) {
+//   if (!product.category) {
+//     return [];
+//   }
 
   const related = await loadProducts({
     is_active: 'eq.true',
