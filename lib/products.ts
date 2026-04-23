@@ -131,12 +131,27 @@ export async function getActiveProducts() {
 }
 
 export async function getProductBySlug(slug: string): Promise<Product | null> {
+  const normalizedSlug = decodeURIComponent(slug).trim();
+  console.info('[products.getProductBySlug] query path: products?slug=eq.%s&limit=1', normalizedSlug);
+
   const products = await loadProducts({
-    slug: `eq.${slug}`,
+    slug: `eq.${normalizedSlug}`,
+    is_active: 'eq.true',
     limit: 1,
   });
 
-  return products[0] ?? null;
+  if (products[0]) {
+    return products[0];
+  }
+
+  console.info('[products.getProductBySlug] slug miss; fallback query path: products?id=eq.%s&limit=1', normalizedSlug);
+  const fallbackById = await loadProducts({
+    id: `eq.${normalizedSlug}`,
+    is_active: 'eq.true',
+    limit: 1,
+  });
+
+  return fallbackById[0] ?? null;
 }
 
 export async function getRelatedProducts(product: Product, limit = 4) {

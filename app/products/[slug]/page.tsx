@@ -11,6 +11,7 @@ type ProductDetailsPageProps = {
 
 export default async function ProductDetailsPage({ params }: ProductDetailsPageProps) {
   const { slug } = params;
+  console.info('[ProductDetailsPage] params.slug =', slug);
 
   let product: Awaited<ReturnType<typeof getProductBySlug>> = null;
 
