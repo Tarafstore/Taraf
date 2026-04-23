@@ -23,6 +23,14 @@ export const products: Product[] = [
   { id: 'mk-1008', name: 'مخور بيان', price: '560 ريال', image: '/images/mk-1008.jpg', tone: 'ivory' },
 ];
 
+export function getProductById(id: string) {
+  return products.find((product) => product.id === id);
+}
+
+export function getRelatedProducts(id: string, limit = 4) {
+  return products.filter((product) => product.id !== id).slice(0, limit);
+}
+
 export const stats: DashboardStat[] = [
   { label: 'إجمالي المنتجات', value: 128 },
   { label: 'الطلبات النشطة', value: 96 },
