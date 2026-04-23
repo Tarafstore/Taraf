@@ -9,7 +9,7 @@ const notoKufi = Noto_Kufi_Arabic({
 });
 
 export const metadata: Metadata = {
-  title: 'Layali Mukhawar',
+  title: 'Taraf Mukhawar',
   description: 'Luxury Arabic mukhawar storefront foundation',
 };
 
