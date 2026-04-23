@@ -10,14 +10,13 @@ type ProductCardProps = {
 
 export function ProductCard({ product }: ProductCardProps) {
   const imageUrl = getProductPrimaryImage(product);
-  const isDataUrl = imageUrl.startsWith('data:');
 
   return (
     <Link href={`/products/${product.slug}`}>
       <Card className="overflow-hidden bg-surface">
         <div className="relative aspect-[3/4] bg-surface-2">
           <img
-            src={getProductPrimaryImage(product)}
+            src={imageUrl}
             alt={product.name}
             className="h-full w-full object-cover"
             loading="lazy"
