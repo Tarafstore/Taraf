@@ -1,0 +1,40 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --color-canvas: #f5f2ee;
+  --color-surface: #fbf9f6;
+  --color-surface-muted: #ece6df;
+  --color-ink: #2c241d;
+  --color-ink-soft: #6e645a;
+  --color-brand: #3a2a1d;
+  --color-brand-soft: #b7aa9a;
+  --color-line: #ded5cc;
+
+  --space-container-x: 1.5rem;
+  --space-section-sm: 2.5rem;
+  --space-section: 4rem;
+}
+
+* {
+  @apply border-line;
+}
+
+body {
+  @apply bg-canvas text-ink antialiased;
+}
+
+@layer components {
+  .container-base {
+    @apply mx-auto w-full max-w-container px-container-x;
+  }
+
+  .section-y {
+    @apply py-section;
+  }
+
+  .section-y-sm {
+    @apply py-section-sm;
+  }
+}
