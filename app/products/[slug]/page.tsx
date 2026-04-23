@@ -55,13 +55,13 @@ export default async function ProductDetailsPage({ params }: ProductDetailsPageP
     <StorefrontShell>
       <section className="space-y-8 rounded-soft border border-line bg-[#fcfbf8] p-4 md:p-6 lg:p-8">
         <div className="grid items-start gap-6 lg:grid-cols-2 lg:gap-10">
-          <div className="order-1 lg:order-2 lg:flex lg:justify-end">
-            <div className="w-full max-w-[26rem] overflow-hidden rounded-2xl border border-line bg-surface-2">
-              <div className="aspect-[4/5] w-full max-h-[32rem] bg-[#f6f3ee] md:aspect-[3/4]">
+          <div className="order-1 lg:order-2">
+            <div className="overflow-hidden rounded-2xl border border-line bg-surface-2">
+              <div className="aspect-[4/5] w-full">
                 <img
                   src={primaryImage.image_url}
                   alt={primaryImage.alt_text ?? product.name}
-                  className="h-full w-full object-contain object-center p-3 md:p-4"
+                  className="h-full w-full object-cover object-center"
                 />
               </div>
             </div>
