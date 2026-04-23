@@ -1,29 +1,29 @@
+import Image from 'next/image';
 import { Product } from '@/lib/mock-data';
 import { Badge } from '@/components/ui/badge';
-import { Card } from '@/components/ui/card';
 
 type ProductCardProps = {
   product: Product;
 };
 
-const toneLabel: Record<Product['tone'], string> = {
-  ivory: 'عاجي',
-  rose: 'وردي',
-  olive: 'زيتي',
-  black: 'أسود',
-};
-
 export function ProductCard({ product }: ProductCardProps) {
   return (
-    <Card className="overflow-hidden">
-      <div className="aspect-[4/5] bg-surface-muted" />
-      <div className="space-y-2 p-4">
-        <div className="flex items-center justify-between">
-          <h3 className="text-sm font-medium">{product.name}</h3>
-          <Badge tone="muted">{toneLabel[product.tone]}</Badge>
+    <article className="space-y-2">
+      <div className="relative overflow-hidden rounded-[5px] border border-line bg-surface-muted">
+        {product.badge ? (
+          <Badge tone="default" className="absolute left-2 top-2 z-10 bg-brand px-2 py-0.5 text-[10px] text-surface">
+            {product.badge}
+          </Badge>
+        ) : null}
+        <div className="relative aspect-[4/5]">
+          <Image src={product.image} alt={product.name} fill sizes="(max-width: 1024px) 50vw, 240px" className="object-cover" />
         </div>
-        <p className="text-sm text-ink-soft">{product.price}</p>
       </div>
-    </Card>
+
+      <div className="space-y-1 text-center">
+        <h3 className="text-[17px] text-ink">{product.name}</h3>
+        <p className="text-[15px] text-ink-soft">{product.price}</p>
+      </div>
+    </article>
   );
 }

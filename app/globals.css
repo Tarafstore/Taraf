@@ -3,14 +3,14 @@
 @tailwind utilities;
 
 :root {
-  --color-canvas: #f5f2ee;
-  --color-surface: #fbf9f6;
-  --color-surface-muted: #ece6df;
-  --color-ink: #2c241d;
-  --color-ink-soft: #6e645a;
-  --color-brand: #3a2a1d;
-  --color-brand-soft: #b7aa9a;
-  --color-line: #ded5cc;
+  --color-canvas: #f2ede7;
+  --color-surface: #faf7f3;
+  --color-surface-muted: #ece4db;
+  --color-ink: #2b231b;
+  --color-ink-soft: #75695d;
+  --color-brand: #342417;
+  --color-brand-soft: #b5a793;
+  --color-line: #ddd2c6;
 
   --space-container-x: 1.5rem;
   --space-section-sm: 2.5rem;
