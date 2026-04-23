@@ -49,31 +49,60 @@ export default async function ProductDetailsPage({ params }: ProductDetailsPageP
     relatedProducts = [];
   }
   const gallery = product.images.length > 0 ? product.images : [{ id: 'fallback', image_url: getProductPrimaryImage(product), alt_text: product.name, product_id: product.id, sort_order: 0 }];
+  const primaryImage = gallery[0];
 
   return (
     <StorefrontShell>
-      <section className="space-y-6 rounded-soft border border-line bg-surface px-4 py-5 md:px-6 md:py-6">
-        <div className="grid gap-6 lg:grid-cols-[1fr_1fr]">
-          <div className="space-y-3">
-            {gallery.map((image, index) => (
-              <div key={image.id} className="overflow-hidden rounded-soft border border-line bg-surface-2">
-                <img src={image.image_url} alt={image.alt_text ?? `${product.name} ${index + 1}`} className="h-full w-full object-cover" />
+      <section className="space-y-8 rounded-soft border border-line bg-[#fcfbf8] p-4 md:p-6 lg:p-8">
+        <div className="grid items-start gap-6 lg:grid-cols-2 lg:gap-10">
+          <div className="order-1 lg:order-2">
+            <div className="overflow-hidden rounded-2xl border border-line bg-surface-2">
+              <div className="aspect-[4/5] w-full">
+                <img
+                  src={primaryImage.image_url}
+                  alt={primaryImage.alt_text ?? product.name}
+                  className="h-full w-full object-cover object-center"
+                />
               </div>
-            ))}
+            </div>
           </div>
 
-          <Card className="h-fit rounded-soft border border-line bg-surface p-5">
-            <h1 className="text-title-ar font-medium text-ink">{product.name}</h1>
-            <p className="mt-2 text-base text-ink-soft">{formatProductPrice(product.price)}</p>
-            {product.category && <p className="mt-3 text-sm text-ink-soft">{product.category}</p>}
-            {product.description && <p className="mt-4 text-sm leading-7 text-ink-soft">{product.description}</p>}
+          <Card className="order-2 h-fit rounded-2xl border border-line bg-surface p-5 lg:order-1 lg:p-7">
+            <div className="space-y-1.5">
+              {product.category && <p className="text-xs text-ink-soft/80">{product.category}</p>}
+              <h1 className="text-[1.65rem] font-medium leading-tight text-ink md:text-[1.9rem]">{product.name}</h1>
+              <p className="text-xl font-medium text-ink">{formatProductPrice(product.price)}</p>
+            </div>
+
+            {product.description && <p className="mt-5 text-sm leading-8 text-ink-soft">{product.description}</p>}
+
+            <div className="mt-6 flex flex-wrap gap-3">
+              <button
+                type="button"
+                className="inline-flex min-w-[9rem] items-center justify-center rounded-full bg-[#2e2419] px-5 py-2.5 text-sm font-medium text-surface transition-colors hover:bg-[#241b12]"
+              >
+                اطلب الآن
+              </button>
+              <button
+                type="button"
+                className="inline-flex min-w-[9rem] items-center justify-center rounded-full border border-line bg-surface px-5 py-2.5 text-sm font-medium text-ink transition-colors hover:bg-surface-2"
+              >
+                واتساب
+              </button>
+            </div>
+
+            <div className="mt-6 grid grid-cols-1 gap-2.5 border-t border-line pt-4 text-sm text-ink-soft sm:grid-cols-3 sm:gap-3">
+              <span className="rounded-full border border-line bg-surface-2 px-3 py-2 text-center">شحن سريع</span>
+              <span className="rounded-full border border-line bg-surface-2 px-3 py-2 text-center">جودة عالية</span>
+              <span className="rounded-full border border-line bg-surface-2 px-3 py-2 text-center">تصميم أنيق</span>
+            </div>
           </Card>
         </div>
 
         {relatedProducts.length > 0 && (
-          <div className="space-y-3">
-            <h2 className="text-lg font-medium text-ink">منتجات مشابهة</h2>
-            <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4 lg:gap-4">
+          <div className="space-y-4 rounded-2xl border border-line bg-surface p-4 md:p-5">
+            <h2 className="text-base font-medium text-ink md:text-lg">منتجات مشابهة</h2>
+            <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
               {relatedProducts.map((relatedProduct) => (
                 <ProductCard key={relatedProduct.id} product={relatedProduct} />
               ))}
