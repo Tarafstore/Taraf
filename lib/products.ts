@@ -197,10 +197,28 @@ export async function getProductBySlug(slug: string): Promise<Product | null> {
   }
 }
 
-// export async function getRelatedProducts(product: Product, limit = 4) {
-//   if (!product.category) {
-//     return [];
-//   }
+export async function getRelatedProducts(product: Product, limit = 4) {
+  try {
+    if (!product.category) {
+      return [];
+    }
+
+    return await loadProducts({
+      is_active: 'eq.true',
+      category: `eq.${encodeURIComponent(product.category)}`,
+      id: `neq.${product.id}`,
+      order: 'id.desc',
+      limit,
+    });
+  } catch (error) {
+    console.error('[getRelatedProducts] failed', {
+      productId: product.id,
+      category: product.category,
+      error,
+    });
+    return [];
+  }
+}
 
   const related = await loadProducts({
     is_active: 'eq.true',
