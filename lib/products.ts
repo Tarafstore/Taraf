@@ -68,40 +68,67 @@ async function loadImagesByProductIds(productIds: string[]) {
     return new Map<string, ProductImage[]>();
   }
 
-  const supabase = createSupabaseServerClient();
-  const rows = await supabase.from<ProductImageRow>('product_images', {
-    select: 'id,product_id,image_url,alt_text,sort_order',
-    product_id: `in.(${productIds.join(',')})`,
-    order: 'sort_order.asc.nullslast',
-  });
+  try {
+    const supabase = createSupabaseServerClient();
+    const productIdFilter = `in.(${productIds.join(',')})`;
+    const rows = await supabase.from<ProductImageRow>('product_images', {
+      select: 'id,product_id,image_url,alt_text,sort_order',
+      product_id: productIdFilter,
+      order: 'sort_order.asc.nullslast',
+    });
 
-  const map = new Map<string, ProductImage[]>();
+    console.log('[loadImagesByProductIds] images rows count:', rows.length, {
+      productIdsCount: productIds.length,
+      productIdFilter,
+    });
 
-  for (const row of rows) {
-    const image = mapImage(row);
+    const map = new Map<string, ProductImage[]>();
 
-    if (!image) {
-      continue;
+    for (const row of rows) {
+      const image = mapImage(row);
+
+      if (!image) {
+        continue;
+      }
+
+      const existing = map.get(image.product_id) ?? [];
+      existing.push(image);
+      map.set(image.product_id, existing);
     }
 
-    const existing = map.get(image.product_id) ?? [];
-    existing.push(image);
-    map.set(image.product_id, existing);
-  }
+    return map;
+  } catch (error) {
+    console.error('[loadImagesByProductIds] Error source: product_images query or image mapping', {
+      productIds,
+      error,
+    });
 
-  return map;
+    return new Map<string, ProductImage[]>();
+  }
 }
 
 async function loadProducts(query: Record<string, string | number | boolean>) {
-  const supabase = createSupabaseServerClient();
-  const rows = await supabase.from<ProductRow>('products', {
-    select: 'id,slug,name,description,category,price,is_active,is_featured',
-    ...query,
-  });
+  try {
+    const supabase = createSupabaseServerClient();
+    const rows = await supabase.from<ProductRow>('products', {
+      select: 'id,slug,name,description,category,price,is_active,is_featured',
+      ...query,
+    });
 
-  const imageMap = await loadImagesByProductIds(rows.map((row) => row.id));
+    console.log('[loadProducts] products rows count:', rows.length, {
+      query,
+    });
 
-  return rows.map((row) => mapProduct(row, imageMap.get(row.id) ?? []));
+    const imageMap = await loadImagesByProductIds(rows.map((row) => row.id));
+
+    return rows.map((row) => mapProduct(row, imageMap.get(row.id) ?? []));
+  } catch (error) {
+    console.error('[loadProducts] Error source: products query or product mapping', {
+      query,
+      error,
+    });
+    throw error;
+  }
 }
 
 function buildProductsQueryPath(query: Record<string, string | number | boolean>) {
@@ -141,25 +168,33 @@ export async function getActiveProducts() {
 }
 
 export async function getProductBySlug(slug: string): Promise<Product | null> {
-  const slugQuery = {
-    slug: `eq.${slug}`,
-    limit: 1,
-  };
-  console.log('[getProductBySlug] Supabase query path (slug):', buildProductsQueryPath(slugQuery));
+  try {
+    const slugQuery = {
+      slug: `eq.${slug}`,
+      limit: 1,
+    };
+    console.log('[getProductBySlug] Supabase query path (slug):', buildProductsQueryPath(slugQuery));
 
-  const productsBySlug = await loadProducts(slugQuery);
-  if (productsBySlug[0]) {
-    return productsBySlug[0];
+    const productsBySlug = await loadProducts(slugQuery);
+    if (productsBySlug[0]) {
+      return productsBySlug[0];
+    }
+
+    const idQuery = {
+      id: `eq.${slug}`,
+      limit: 1,
+    };
+    console.log('[getProductBySlug] Supabase query path (id fallback):', buildProductsQueryPath(idQuery));
+
+    const productsById = await loadProducts(idQuery);
+    return productsById[0] ?? null;
+  } catch (error) {
+    console.error('[getProductBySlug] Error source: slug lookup flow', {
+      slug,
+      error,
+    });
+    throw error;
   }
-
-  const idQuery = {
-    id: `eq.${slug}`,
-    limit: 1,
-  };
-  console.log('[getProductBySlug] Supabase query path (id fallback):', buildProductsQueryPath(idQuery));
-
-  const productsById = await loadProducts(idQuery);
-  return productsById[0] ?? null;
 }
 
 export async function getRelatedProducts(product: Product, limit = 4) {
