@@ -1,4 +1,3 @@
-import Link from 'next/link';
 import { StorefrontShell } from '@/components/layout/storefront-shell';
 import { ProductCard } from '@/components/product/product-card';
 import { Button } from '@/components/ui/button';
@@ -16,13 +15,7 @@ export default function ProductsPage() {
           <div className="flex w-full flex-wrap items-center gap-2 md:w-auto md:flex-nowrap">
             <div className="relative min-w-[220px] flex-1 md:w-[260px] md:flex-none">
               <Input placeholder="ابحث عن مخور..." className="h-9 bg-surface ps-9" />
-              <svg
-                viewBox="0 0 24 24"
-                className="pointer-events-none absolute start-3 top-1/2 h-4 w-4 -translate-y-1/2 text-ink-soft"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="1.7"
-              >
+              <svg viewBox="0 0 24 24" className="pointer-events-none absolute start-3 top-1/2 h-4 w-4 -translate-y-1/2 text-ink-soft" fill="none" stroke="currentColor" strokeWidth="1.7">
                 <circle cx="11" cy="11" r="5" />
                 <path d="m15 15 4 4" />
               </svg>
@@ -46,9 +39,7 @@ export default function ProductsPage() {
 
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4 lg:gap-4">
           {products.map((product) => (
-            <Link key={product.id} href={`/products/${product.id}`} className="block">
-              <ProductCard product={product} />
-            </Link>
+            <ProductCard key={product.id} product={product} />
           ))}
         </div>
 
