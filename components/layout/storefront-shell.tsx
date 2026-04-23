@@ -6,8 +6,8 @@ type StorefrontShellProps = {
 };
 
 const topLinks = [
-  { label: 'الرئيسية', href: '#' },
-  { label: 'المتجر', href: '#' },
+  { label: 'الرئيسية', href: '/' },
+  { label: 'المتجر', href: '/products' },
   { label: 'المخاوير', href: '#' },
   { label: 'من نحن', href: '#' },
   { label: 'تواصل معنا', href: '#' },
