@@ -4,6 +4,7 @@ export type Product = {
   price: string;
   image: string;
   tone: 'ivory' | 'rose' | 'olive' | 'black';
+  isNew?: boolean;
 };
 
 export type DashboardStat = {
@@ -12,11 +13,23 @@ export type DashboardStat = {
 };
 
 export const products: Product[] = [
-  { id: 'mk-1001', name: 'مخور لُفد', price: '520 ر.س', image: '/images/mk-1001.jpg', tone: 'ivory' },
-  { id: 'mk-1002', name: 'مخور ورد', price: '480 ر.س', image: '/images/mk-1002.jpg', tone: 'rose' },
-  { id: 'mk-1003', name: 'مخور سدن', price: '550 ر.س', image: '/images/mk-1003.jpg', tone: 'olive' },
-  { id: 'mk-1004', name: 'مخور ليل', price: '600 ر.س', image: '/images/mk-1004.jpg', tone: 'black' },
+  { id: 'mk-1001', name: 'مخور لُفد', price: '520 ريال', image: '/images/mk-1001.jpg', tone: 'ivory', isNew: true },
+  { id: 'mk-1002', name: 'مخور ورد', price: '480 ريال', image: '/images/mk-1002.jpg', tone: 'rose', isNew: true },
+  { id: 'mk-1003', name: 'مخور سدن', price: '550 ريال', image: '/images/mk-1003.jpg', tone: 'olive', isNew: true },
+  { id: 'mk-1004', name: 'مخور ليل', price: '600 ريال', image: '/images/mk-1004.jpg', tone: 'black', isNew: true },
+  { id: 'mk-1005', name: 'مخور توليب', price: '490 ريال', image: '/images/mk-1005.jpg', tone: 'rose' },
+  { id: 'mk-1006', name: 'مخور نغم', price: '530 ريال', image: '/images/mk-1006.jpg', tone: 'ivory' },
+  { id: 'mk-1007', name: 'مخور أفق', price: '510 ريال', image: '/images/mk-1007.jpg', tone: 'black' },
+  { id: 'mk-1008', name: 'مخور بيان', price: '560 ريال', image: '/images/mk-1008.jpg', tone: 'ivory' },
 ];
+
+export function getProductById(id: string) {
+  return products.find((product) => product.id === id);
+}
+
+export function getRelatedProducts(id: string, limit = 4) {
+  return products.filter((product) => product.id !== id).slice(0, limit);
+}
 
 export const stats: DashboardStat[] = [
   { label: 'إجمالي المنتجات', value: 128 },
