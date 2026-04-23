@@ -140,6 +140,13 @@ export async function getActiveProducts() {
   });
 }
 
+function looksLikeDatabaseId(value: string) {
+  const uuidV4Like = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+  const numericLike = /^\d+$/;
+
+  return uuidV4Like.test(value) || numericLike.test(value);
+}
+
 export async function getProductBySlug(slug: string): Promise<Product | null> {
   const slugQuery = {
     slug: `eq.${slug}`,
@@ -148,8 +155,16 @@ export async function getProductBySlug(slug: string): Promise<Product | null> {
   console.log('[getProductBySlug] Supabase query path (slug):', buildProductsQueryPath(slugQuery));
 
   const productsBySlug = await loadProducts(slugQuery);
+  console.log('[getProductBySlug] slug query result count:', productsBySlug.length);
+  console.log('[getProductBySlug] slug query first row:', productsBySlug[0] ?? null);
+
   if (productsBySlug[0]) {
     return productsBySlug[0];
+  }
+
+  if (!looksLikeDatabaseId(slug)) {
+    console.log('[getProductBySlug] skipping id fallback for non-id slug-like param:', slug);
+    return null;
   }
 
   const idQuery = {
@@ -159,6 +174,9 @@ export async function getProductBySlug(slug: string): Promise<Product | null> {
   console.log('[getProductBySlug] Supabase query path (id fallback):', buildProductsQueryPath(idQuery));
 
   const productsById = await loadProducts(idQuery);
+  console.log('[getProductBySlug] id fallback result count:', productsById.length);
+  console.log('[getProductBySlug] id fallback first row:', productsById[0] ?? null);
+
   return productsById[0] ?? null;
 }
 

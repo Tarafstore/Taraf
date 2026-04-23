@@ -23,6 +23,12 @@ Date: 2026-04-23 (UTC)
    - Impact: more latency and read load, especially under burst traffic.
    - Recommendation: consider Next.js revalidation (`next: { revalidate: 60 }`) for listing endpoints if near-real-time updates are not required.
 
+
+3. **Slug route can silently miss records and run a misleading ID fallback**
+   - Product details route queried by `slug = eq.<param>` then always retried `id = eq.<same-param>`.
+   - For slug-like params such as `mkhawar-asayel`, the fallback is not meaningful and can hide the real issue (null/mismatched slug in data).
+   - Mitigation implemented: added explicit slug and fallback result-count logging, plus conditional fallback that only runs for UUID/numeric-like IDs.
+
 ## Medium-risk findings
 
 1. **Image host allowlist not aligned with likely Supabase storage domain**
