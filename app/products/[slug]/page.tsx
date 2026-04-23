@@ -6,18 +6,22 @@ import { Card } from '@/components/ui/card';
 import { formatProductPrice, getProductBySlug, getProductPrimaryImage, getRelatedProducts } from '@/lib/products';
 
 type ProductDetailsPageProps = {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 };
 
 export default async function ProductDetailsPage({ params }: ProductDetailsPageProps) {
-  const { slug } = params;
-  console.log('[ProductDetailsPage] params.slug:', slug);
+  const { slug } = await params;
 
   let product: Awaited<ReturnType<typeof getProductBySlug>> = null;
 
   try {
     product = await getProductBySlug(slug);
-  } catch {
+  } catch (error) {
+    console.error('[ProductDetailsPage] failed to load product', {
+      slug,
+      error,
+    });
+
     return (
       <StorefrontShell>
         <Card className="rounded-soft border border-line bg-surface p-8 text-center text-ink-soft">
@@ -35,7 +39,13 @@ export default async function ProductDetailsPage({ params }: ProductDetailsPageP
 
   try {
     relatedProducts = await getRelatedProducts(product);
-  } catch {
+  } catch (error) {
+    console.error('[ProductDetailsPage] failed to load related products', {
+      slug,
+      productId: product.id,
+      category: product.category ?? null,
+      error,
+    });
     relatedProducts = [];
   }
   const gallery = product.images.length > 0 ? product.images : [{ id: 'fallback', image_url: getProductPrimaryImage(product), alt_text: product.name, product_id: product.id, sort_order: 0 }];
