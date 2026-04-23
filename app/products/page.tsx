@@ -1,11 +1,21 @@
 import { StorefrontShell } from '@/components/layout/storefront-shell';
 import { ProductCard } from '@/components/product/product-card';
 import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Select } from '@/components/ui/select';
-import { products } from '@/lib/mock-data';
+import { getActiveProducts } from '@/lib/products';
 
-export default function ProductsPage() {
+export default async function ProductsPage() {
+  let products = [] as Awaited<ReturnType<typeof getActiveProducts>>;
+  let errorMessage: string | null = null;
+
+  try {
+    products = await getActiveProducts();
+  } catch {
+    errorMessage = 'تعذر تحميل المنتجات حالياً. حاول مرة أخرى بعد قليل.';
+  }
+
   return (
     <StorefrontShell>
       <section className="rounded-soft border border-line bg-surface px-4 py-5 md:px-6 md:py-6">
@@ -37,11 +47,21 @@ export default function ProductsPage() {
           </div>
         </div>
 
-        <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4 lg:gap-4">
-          {products.map((product) => (
-            <ProductCard key={product.id} product={product} />
-          ))}
-        </div>
+        {errorMessage && (
+          <Card className="mb-5 rounded-soft border border-line bg-surface p-6 text-center text-ink-soft">{errorMessage}</Card>
+        )}
+
+        {!errorMessage && products.length === 0 && (
+          <Card className="mb-5 rounded-soft border border-line bg-surface p-6 text-center text-ink-soft">لا توجد منتجات متاحة حالياً.</Card>
+        )}
+
+        {!errorMessage && products.length > 0 && (
+          <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4 lg:gap-4">
+            {products.map((product) => (
+              <ProductCard key={product.id} product={product} />
+            ))}
+          </div>
+        )}
 
         <div className="mt-6 flex justify-center">
           <Button className="h-9 min-w-[124px] px-8 text-[13px]">عرض المزيد</Button>
