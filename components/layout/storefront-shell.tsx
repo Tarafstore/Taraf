@@ -21,6 +21,11 @@ export function StorefrontShell({ children }: StorefrontShellProps) {
       <section className="container-base pt-4">
         <div className="grid min-h-[435px] grid-cols-[1.1fr_1fr] overflow-hidden border border-line bg-surface-muted">
           <div className="relative bg-[linear-gradient(90deg,#d7c7b7_0%,#cab7a4_45%,#d8c8b8_100%)]">
+            <img
+              src="/pics/model111.png"
+              alt="عارضة ترتدي مخور"
+              className="absolute inset-0 h-full w-full object-cover"
+            />
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_60%,rgba(255,255,255,0.32),rgba(255,255,255,0)_45%)]" />
           </div>
 
