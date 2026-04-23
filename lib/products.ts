@@ -168,9 +168,17 @@ export async function getActiveProducts() {
 }
 
 export async function getProductBySlug(slug: string): Promise<Product | null> {
+  const normalizedSlug = slug.trim();
+
+  if (!normalizedSlug) {
+    console.error('[getProductBySlug] empty slug received', { slug });
+    return null;
+  }
+
   try {
     const slugQuery = {
-      slug: `eq.${slug}`,
+      slug: `eq.${normalizedSlug}`,
+      is_active: 'eq.true',
       limit: 1,
     };
     console.log('[getProductBySlug] Supabase query path (slug):', buildProductsQueryPath(slugQuery));
@@ -181,7 +189,8 @@ export async function getProductBySlug(slug: string): Promise<Product | null> {
     }
 
     const idQuery = {
-      id: `eq.${slug}`,
+      id: `eq.${normalizedSlug}`,
+      is_active: 'eq.true',
       limit: 1,
     };
     console.log('[getProductBySlug] Supabase query path (id fallback):', buildProductsQueryPath(idQuery));
@@ -198,14 +207,16 @@ export async function getProductBySlug(slug: string): Promise<Product | null> {
 }
 
 export async function getRelatedProducts(product: Product, limit = 4) {
+  const normalizedCategory = product.category?.trim() ?? '';
+
   try {
-    if (!product.category) {
+    if (!normalizedCategory) {
       return [];
     }
 
     return await loadProducts({
       is_active: 'eq.true',
-      category: `eq.${encodeURIComponent(product.category)}`,
+      category: `eq.${normalizedCategory}`,
       id: `neq.${product.id}`,
       order: 'id.desc',
       limit,
@@ -213,22 +224,11 @@ export async function getRelatedProducts(product: Product, limit = 4) {
   } catch (error) {
     console.error('[getRelatedProducts] failed', {
       productId: product.id,
-      category: product.category,
+      category: normalizedCategory || null,
       error,
     });
     return [];
   }
-}
-
-  const related = await loadProducts({
-    is_active: 'eq.true',
-    category: `eq.${product.category}`,
-    id: `neq.${product.id}`,
-    order: 'id.desc',
-    limit,
-  });
-
-  return related;
 }
 
 export function getProductPrimaryImage(product: Product) {
