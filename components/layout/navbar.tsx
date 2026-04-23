@@ -27,7 +27,7 @@ function ActionIcon({ children, label }: { children: ReactNode; label: string })
     <button
       type="button"
       aria-label={label}
-      className="inline-flex h-8 w-8 items-center justify-center text-ink transition-colors hover:text-brand"
+      className="inline-flex h-11 w-11 items-center justify-center rounded-full text-ink transition-colors hover:bg-surface-muted/80 hover:text-brand focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand/30 md:h-8 md:w-8 md:rounded-none md:hover:bg-transparent"
     >
       {children}
     </button>
@@ -37,10 +37,10 @@ function ActionIcon({ children, label }: { children: ReactNode; label: string })
 export function Navbar({ links, className }: NavbarProps) {
   return (
     <header className={cn('border-b border-line bg-surface/95', className)}>
-      <div className="container-base relative grid h-[88px] grid-cols-[1fr_auto] items-center gap-8">
-        <div className="justify-self-start">
-          <div className="flex items-center gap-8">
-            <div className="flex items-center gap-1 text-ink-soft">
+      <div className="container-base flex flex-col gap-3 py-3 md:relative md:grid md:h-[88px] md:grid-cols-[1fr_auto] md:items-center md:gap-8 md:py-0">
+        <div className="flex items-center justify-between md:justify-self-start">
+          <div className="flex items-center gap-1 text-ink-soft md:gap-8">
+            <div className="hidden items-center gap-1 text-ink-soft md:flex">
               <ActionIcon label="العربة">
                 <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="1.7">
                   <path d="M4 7h2l2.2 8.5h8.6L19 9H8.5" />
@@ -61,25 +61,24 @@ export function Navbar({ links, className }: NavbarProps) {
                 </svg>
               </ActionIcon>
             </div>
-
-            <nav className="flex items-center gap-9 text-[13px] text-ink">
-              {links.map((link) => (
-                <Link key={link.label} href={link.href} className="transition-colors hover:text-brand">
-                  {link.label}
-                </Link>
-              ))}
-            </nav>
+            <ActionIcon label="القائمة">
+              <svg viewBox="0 0 24 24" className="h-4 w-4 md:hidden" fill="none" stroke="currentColor" strokeWidth="1.7">
+                <path d="M4 7h16M4 12h16M4 17h16" />
+              </svg>
+              <svg viewBox="0 0 24 24" className="hidden h-4 w-4 md:block" fill="none" stroke="currentColor" strokeWidth="1.7">
+                <circle cx="11" cy="11" r="5" />
+                <path d="m15 15 4 4" />
+              </svg>
+            </ActionIcon>
           </div>
-        </div>
 
-        <div className="pointer-events-none absolute left-1/2 top-1/2 flex min-w-[130px] -translate-x-1/2 -translate-y-1/2 flex-col items-center justify-center gap-1 text-center leading-none text-brand">
-          <BrandMark />
-          <p className="text-[37px] tracking-[0.18em] [font-family:Georgia,'Times_New_Roman',serif]">TARAF</p>
-          <p className="text-[9px] uppercase tracking-[0.37em] text-ink-soft">Mukhawar</p>
-        </div>
+          <div className="pointer-events-none flex min-w-[112px] flex-col items-center justify-center gap-1 text-center leading-none text-brand md:absolute md:left-1/2 md:top-1/2 md:min-w-[130px] md:-translate-x-1/2 md:-translate-y-1/2">
+            <BrandMark />
+            <p className="text-[28px] tracking-[0.14em] [font-family:Georgia,'Times_New_Roman',serif] md:text-[37px] md:tracking-[0.18em]">TARAF</p>
+            <p className="text-[8px] uppercase tracking-[0.3em] text-ink-soft md:text-[9px] md:tracking-[0.37em]">Mukhawar</p>
+          </div>
 
-        <div className="justify-self-end">
-          <div className="flex items-center gap-1 text-ink-soft">
+          <div className="flex items-center gap-1 text-ink-soft md:justify-self-end">
             <ActionIcon label="المفضلة">
               <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="1.7">
                 <path d="M12 20s-6-3.8-6-8.2c0-2.2 1.6-3.8 3.6-3.8 1.3 0 2.1.6 2.4 1.2.3-.6 1.1-1.2 2.4-1.2 2 0 3.6 1.6 3.6 3.8 0 4.4-6 8.2-6 8.2Z" />
@@ -94,6 +93,18 @@ export function Navbar({ links, className }: NavbarProps) {
             </ActionIcon>
           </div>
         </div>
+
+        <nav className="no-scrollbar -mx-2 flex snap-x snap-mandatory items-center gap-2 overflow-x-auto px-2 pb-1 text-sm text-ink md:mx-0 md:justify-center md:gap-9 md:overflow-visible md:px-0 md:pb-0 md:text-[13px]">
+          {links.map((link) => (
+            <Link
+              key={link.label}
+              href={link.href}
+              className="snap-start whitespace-nowrap rounded-full border border-line/80 bg-surface px-4 py-2.5 transition-colors hover:text-brand md:rounded-none md:border-none md:bg-transparent md:px-0 md:py-0"
+            >
+              {link.label}
+            </Link>
+          ))}
+        </nav>
       </div>
     </header>
   );
