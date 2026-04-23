@@ -1,4 +1,3 @@
-import Image from 'next/image';
 import Link from 'next/link';
 
 import { Card } from '@/components/ui/card';
@@ -17,13 +16,11 @@ export function ProductCard({ product }: ProductCardProps) {
     <Link href={`/products/${product.slug}`}>
       <Card className="overflow-hidden bg-surface">
         <div className="relative aspect-[3/4] bg-surface-2">
-          <Image
-            src={imageUrl}
+          <img
+            src={getProductPrimaryImage(product)}
             alt={product.name}
-            fill
-            sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
             className="h-full w-full object-cover"
-            unoptimized={isDataUrl}
+            loading="lazy"
           />
           {product.is_featured && (
             <span className="absolute right-2 top-2 rounded-soft bg-[#21180f] px-2 py-1 text-[10px] text-surface">جديد</span>

@@ -1,4 +1,3 @@
-import Image from 'next/image';
 import { notFound } from 'next/navigation';
 
 import { ProductCard } from '@/components/product/product-card';
@@ -47,14 +46,7 @@ export default async function ProductDetailsPage({ params }: ProductDetailsPageP
           <div className="space-y-3">
             {gallery.map((image, index) => (
               <div key={image.id} className="overflow-hidden rounded-soft border border-line bg-surface-2">
-                <Image
-                  src={image.image_url}
-                  alt={image.alt_text ?? `${product.name} ${index + 1}`}
-                  width={900}
-                  height={1200}
-                  className="h-full w-full object-cover"
-                  unoptimized={image.image_url.startsWith('data:')}
-                />
+                <img src={image.image_url} alt={image.alt_text ?? `${product.name} ${index + 1}`} className="h-full w-full object-cover" />
               </div>
             ))}
           </div>
