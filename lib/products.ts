@@ -104,6 +104,16 @@ async function loadProducts(query: Record<string, string | number | boolean>) {
   return rows.map((row) => mapProduct(row, imageMap.get(row.id) ?? []));
 }
 
+function buildProductsQueryPath(query: Record<string, string | number | boolean>) {
+  const searchParams = new URLSearchParams();
+
+  for (const [key, value] of Object.entries(query)) {
+    searchParams.set(key, `${value}`);
+  }
+
+  return `/rest/v1/products?${searchParams.toString()}`;
+}
+
 export async function getFeaturedProducts(limit = 4) {
   const featured = await loadProducts({
     is_active: 'eq.true',
@@ -131,12 +141,25 @@ export async function getActiveProducts() {
 }
 
 export async function getProductBySlug(slug: string): Promise<Product | null> {
-  const products = await loadProducts({
+  const slugQuery = {
     slug: `eq.${slug}`,
     limit: 1,
-  });
+  };
+  console.log('[getProductBySlug] Supabase query path (slug):', buildProductsQueryPath(slugQuery));
 
-  return products[0] ?? null;
+  const productsBySlug = await loadProducts(slugQuery);
+  if (productsBySlug[0]) {
+    return productsBySlug[0];
+  }
+
+  const idQuery = {
+    id: `eq.${slug}`,
+    limit: 1,
+  };
+  console.log('[getProductBySlug] Supabase query path (id fallback):', buildProductsQueryPath(idQuery));
+
+  const productsById = await loadProducts(idQuery);
+  return productsById[0] ?? null;
 }
 
 export async function getRelatedProducts(product: Product, limit = 4) {
