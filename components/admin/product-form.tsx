@@ -4,8 +4,7 @@ import { useMemo, useState } from 'react';
 import { useFormStatus } from 'react-dom';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import type { AdminProduct } from '@/lib/admin/products';
-import { slugifyArabic } from '@/lib/admin/slug';
+import { slugifyArabic, type AdminProduct } from '@/lib/admin/products';
 
 type ProductFormProps = {
   mode: 'create' | 'edit';
