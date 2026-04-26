@@ -12,6 +12,7 @@ export type Product = {
   name: string;
   description: string | null;
   category: string | null;
+  collection_id: string | null;
   price: number | null;
   is_active: boolean;
   is_featured: boolean;
