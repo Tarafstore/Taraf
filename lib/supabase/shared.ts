@@ -49,8 +49,8 @@ export class SupabaseRestClient {
       method,
       headers: {
         'Content-Type': 'application/json',
-        apikey: this.apiKey,
-        Authorization: `Bearer ${this.apiKey}`,
+        apikey: this.publishableKey,
+        Authorization: `Bearer ${this.publishableKey}`,
         ...headers,
       },
       body: payload ? JSON.stringify(payload) : undefined,

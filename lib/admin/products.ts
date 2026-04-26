@@ -1,4 +1,4 @@
-import { createSupabaseAdminClient } from '@/lib/supabase/admin';
+import { createSupabaseServerClient } from '@/lib/supabase/server';
 
 export type AdminProductImage = {
   id: string;
@@ -63,7 +63,7 @@ export function parseImagesFromFormData(formData: FormData) {
 }
 
 export async function getAdminProducts() {
-  const supabase = createSupabaseAdminClient();
+  const supabase = createSupabaseServerClient();
 
   const products = await supabase.from<ProductRow>('products', {
     select:
@@ -111,7 +111,7 @@ export async function getAdminProducts() {
 }
 
 export async function getAdminProductById(id: string) {
-  const supabase = createSupabaseAdminClient();
+  const supabase = createSupabaseServerClient();
   const rows = await supabase.from<ProductRow>('products', {
     select:
       'id,name,slug,description,price,sale_price,sku,category,is_active,is_featured,created_at,updated_at',
