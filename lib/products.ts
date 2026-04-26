@@ -1,4 +1,5 @@
 import { createSupabaseServerClient } from '@/lib/supabase/server';
+import { Collection } from '@/lib/types/collection';
 import { Product, ProductImage } from '@/lib/types/product';
 
 type ProductRow = {
@@ -7,6 +8,7 @@ type ProductRow = {
   name: string | null;
   description?: string | null;
   category?: string | null;
+  collection_id?: string | null;
   price?: number | string | null;
   is_active?: boolean | null;
   is_featured?: boolean | null;
@@ -20,7 +22,19 @@ type ProductImageRow = {
   sort_order?: number | null;
 };
 
-const FALLBACK_PLACEHOLDER = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 600 800'%3E%3Crect width='600' height='800' fill='%23ece7e2'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='%23978674' font-family='sans-serif' font-size='28'%3ETaraf%3C/text%3E%3C/svg%3E";
+type CollectionRow = {
+  id: string;
+  name: string | null;
+  slug: string | null;
+  description?: string | null;
+  image_url?: string | null;
+  is_active?: boolean | null;
+  sort_order?: number | null;
+  created_at?: string | null;
+};
+
+const FALLBACK_PLACEHOLDER =
+  "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 600 800'%3E%3Crect width='600' height='800' fill='%23ece7e2'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='%23978674' font-family='sans-serif' font-size='28'%3ETaraf%3C/text%3E%3C/svg%3E";
 
 function toNumber(value: number | string | null | undefined) {
   if (typeof value === 'number') {
@@ -56,10 +70,24 @@ function mapProduct(row: ProductRow, images: ProductImage[]): Product {
     name: row.name ?? 'منتج',
     description: row.description ?? null,
     category: row.category ?? null,
+    collection_id: row.collection_id ?? null,
     price: toNumber(row.price),
     is_active: row.is_active ?? true,
     is_featured: row.is_featured ?? false,
     images,
+  };
+}
+
+function mapCollection(row: CollectionRow): Collection {
+  return {
+    id: row.id,
+    name: row.name ?? 'مجموعة',
+    slug: row.slug ?? row.id,
+    description: row.description ?? null,
+    image_url: row.image_url ?? null,
+    is_active: row.is_active ?? true,
+    sort_order: row.sort_order ?? 0,
+    created_at: row.created_at ?? new Date(0).toISOString(),
   };
 }
 
@@ -75,11 +103,6 @@ async function loadImagesByProductIds(productIds: string[]) {
       select: 'id,product_id,image_url,alt_text,sort_order',
       product_id: productIdFilter,
       order: 'sort_order.asc.nullslast',
-    });
-
-    console.log('[loadImagesByProductIds] images rows count:', rows.length, {
-      productIdsCount: productIds.length,
-      productIdFilter,
     });
 
     const map = new Map<string, ProductImage[]>();
@@ -111,12 +134,8 @@ async function loadProducts(query: Record<string, string | number | boolean>) {
   try {
     const supabase = createSupabaseServerClient();
     const rows = await supabase.from<ProductRow>('products', {
-      select: 'id,slug,name,description,category,price,is_active,is_featured',
+      select: 'id,slug,name,description,category,collection_id,price,is_active,is_featured',
       ...query,
-    });
-
-    console.log('[loadProducts] products rows count:', rows.length, {
-      query,
     });
 
     const imageMap = await loadImagesByProductIds(rows.map((row) => row.id));
@@ -165,6 +184,83 @@ export async function getActiveProducts() {
     is_active: 'eq.true',
     order: 'id.desc',
   });
+}
+
+export async function getCollections() {
+  try {
+    const supabase = createSupabaseServerClient();
+    const rows = await supabase.from<CollectionRow>('collections', {
+      select: 'id,name,slug,description,image_url,is_active,sort_order,created_at',
+      is_active: 'eq.true',
+      order: 'sort_order.asc.nullslast',
+    });
+
+    return rows.map(mapCollection);
+  } catch (error) {
+    console.error('[getCollections] Error source: collections query or mapping', { error });
+    return [];
+  }
+}
+
+export async function getCollectionBySlug(slug: string): Promise<Collection | null> {
+  const normalizedSlug = slug.trim();
+
+  if (!normalizedSlug) {
+    return null;
+  }
+
+  try {
+    const supabase = createSupabaseServerClient();
+    const rows = await supabase.from<CollectionRow>('collections', {
+      select: 'id,name,slug,description,image_url,is_active,sort_order,created_at',
+      slug: `eq.${normalizedSlug}`,
+      is_active: 'eq.true',
+      limit: 1,
+    });
+
+    return rows[0] ? mapCollection(rows[0]) : null;
+  } catch (error) {
+    console.error('[getCollectionBySlug] Error source: collection slug query or mapping', {
+      slug,
+      error,
+    });
+    return null;
+  }
+}
+
+export async function getProductsByCollectionSlug(slug: string) {
+  const collection = await getCollectionBySlug(slug);
+
+  if (!collection) {
+    return {
+      collection: null,
+      products: [] as Product[],
+    };
+  }
+
+  try {
+    const products = await loadProducts({
+      is_active: 'eq.true',
+      collection_id: `eq.${collection.id}`,
+      order: 'id.desc',
+    });
+
+    return {
+      collection,
+      products,
+    };
+  } catch (error) {
+    console.error('[getProductsByCollectionSlug] Error source: products by collection query', {
+      slug,
+      collectionId: collection.id,
+      error,
+    });
+
+    return {
+      collection,
+      products: [] as Product[],
+    };
+  }
 }
 
 export async function getProductBySlug(slug: string): Promise<Product | null> {
@@ -233,6 +329,10 @@ export async function getRelatedProducts(product: Product, limit = 4) {
 
 export function getProductPrimaryImage(product: Product) {
   return product.images[0]?.image_url ?? FALLBACK_PLACEHOLDER;
+}
+
+export function getCollectionPrimaryImage(collection: Collection, fallbackImage = '/pics/model111.png') {
+  return collection.image_url ?? fallbackImage;
 }
 
 export function formatProductPrice(price: Product['price']) {
