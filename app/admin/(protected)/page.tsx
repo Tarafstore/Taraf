@@ -1,6 +1,4 @@
-import Link from 'next/link';
 import { Card } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
 import { StatCard } from '@/components/admin/stat-card';
 import { getAdminProducts } from '@/lib/admin/products';
 
@@ -14,32 +12,21 @@ export default async function AdminDashboardPage() {
   const latestProducts = products.slice(0, 6);
 
   return (
-    <div className="space-y-6">
-      <div className="flex flex-wrap items-center justify-between gap-3">
-        <div>
-          <h2 className="text-2xl font-bold text-ink">لوحة التحكم</h2>
-          <p className="text-sm text-ink-soft">ملخص سريع لإدارة المنتجات.</p>
-        </div>
-
-        <div className="flex gap-2">
-          <Link href="/admin/products/new">
-            <Button>إضافة منتج</Button>
-          </Link>
-          <Link href="/admin/products">
-            <Button variant="secondary">المنتجات</Button>
-          </Link>
-        </div>
+    <div className="space-y-5">
+      <div className="rounded-soft border border-line bg-surface px-5 py-4 shadow-[0_10px_30px_-24px_rgba(52,36,23,0.75)]">
+        <h2 className="text-2xl font-bold text-ink">لوحة التحكم</h2>
+        <p className="mt-1 text-sm text-ink-soft">ملخص سريع لإدارة المنتجات.</p>
       </div>
 
-      <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-4">
+      <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
         <StatCard label="إجمالي المنتجات" value={totalProducts} />
         <StatCard label="المنتجات النشطة" value={activeProducts} />
         <StatCard label="المنتجات المميزة" value={featuredProducts} />
         <StatCard label="منتجات بلا صور" value={productsWithoutImages} />
       </div>
 
-      <Card className="p-5">
-        <h3 className="mb-4 text-lg font-semibold">أحدث المنتجات</h3>
+      <Card className="p-5 shadow-[0_14px_34px_-28px_rgba(52,36,23,0.9)]">
+        <h3 className="mb-4 text-lg font-semibold text-ink">أحدث المنتجات</h3>
         {latestProducts.length === 0 ? (
           <p className="text-sm text-ink-soft">لا توجد منتجات حالياً.</p>
         ) : (
