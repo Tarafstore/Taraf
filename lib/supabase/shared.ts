@@ -6,6 +6,7 @@ type SupabaseMutatePayload = Record<string, unknown> | Record<string, unknown>[]
 
 export type SupabaseFetchOptions = {
   cache?: RequestCache;
+  apiKey?: string;
 };
 
 function serializeValue(value: SupabaseQueryValue) {
@@ -18,14 +19,14 @@ function serializeValue(value: SupabaseQueryValue) {
 
 export class SupabaseRestClient {
   private readonly url: string;
-  private readonly publishableKey: string;
+  private readonly apiKey: string;
   private readonly fetchOptions: SupabaseFetchOptions;
 
   constructor(fetchOptions: SupabaseFetchOptions = {}) {
     const env = getSupabaseEnv();
 
     this.url = env.url;
-    this.publishableKey = env.publishableKey;
+    this.apiKey = fetchOptions.apiKey ?? env.publishableKey;
     this.fetchOptions = fetchOptions;
   }
 
