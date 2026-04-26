@@ -1,6 +1,7 @@
 import { Card } from '@/components/ui/card';
 import { ProductForm } from '@/components/admin/product-form';
 import { createProductAction } from '@/app/admin/(protected)/products/actions';
+import { getActiveCollectionsForSelect } from '@/lib/admin/collections';
 
 type NewProductPageProps = {
   searchParams: Promise<{ status?: string; message?: string }>;
@@ -8,6 +9,7 @@ type NewProductPageProps = {
 
 export default async function NewProductPage({ searchParams }: NewProductPageProps) {
   const params = await searchParams;
+  const collections = await getActiveCollectionsForSelect();
 
   return (
     <div className="space-y-4">
@@ -20,7 +22,7 @@ export default async function NewProductPage({ searchParams }: NewProductPagePro
       ) : null}
 
       <Card className="p-5">
-        <ProductForm mode="create" action={createProductAction} />
+        <ProductForm mode="create" action={createProductAction} collections={collections} />
       </Card>
     </div>
   );

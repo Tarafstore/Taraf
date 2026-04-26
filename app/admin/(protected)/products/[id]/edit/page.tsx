@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { ProductForm } from '@/components/admin/product-form';
 import { updateProductAction } from '@/app/admin/(protected)/products/actions';
 import { getAdminProductById } from '@/lib/admin/products';
+import { getActiveCollectionsForSelect } from '@/lib/admin/collections';
 
 type EditProductPageProps = {
   params: Promise<{ id: string }>;
@@ -15,6 +16,7 @@ export default async function EditProductPage({ params, searchParams }: EditProd
   const { id } = await params;
   const query = await searchParams;
   const product = await getAdminProductById(id);
+  const collections = await getActiveCollectionsForSelect();
 
   if (!product) {
     notFound();
@@ -36,7 +38,7 @@ export default async function EditProductPage({ params, searchParams }: EditProd
       ) : null}
 
       <Card className="p-5">
-        <ProductForm mode="edit" action={updateProductAction} product={product} />
+        <ProductForm mode="edit" action={updateProductAction} product={product} collections={collections} />
       </Card>
     </div>
   );

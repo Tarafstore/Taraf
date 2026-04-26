@@ -9,6 +9,7 @@ const navItems = [
   { label: 'لوحة التحكم', href: '/admin' },
   { label: 'المنتجات', href: '/admin/products' },
   { label: 'إضافة منتج', href: '/admin/products/new' },
+  { label: 'المجموعات', href: '/admin/collections' },
 ];
 
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {

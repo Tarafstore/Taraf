@@ -4,6 +4,8 @@ import { useMemo, useState } from 'react';
 import { useFormStatus } from 'react-dom';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { Select } from '@/components/ui/select';
+import type { AdminCollection } from '@/lib/admin/collections';
 import type { AdminProduct } from '@/lib/admin/products';
 import { slugifyArabic } from '@/lib/admin/slug';
 
@@ -11,6 +13,7 @@ type ProductFormProps = {
   mode: 'create' | 'edit';
   action: (formData: FormData) => void;
   product?: AdminProduct;
+  collections?: AdminCollection[];
 };
 
 type ImageInput = {
@@ -22,14 +25,10 @@ type ImageInput = {
 function SubmitButton({ mode }: { mode: ProductFormProps['mode'] }) {
   const { pending } = useFormStatus();
 
-  return (
-    <Button type="submit" disabled={pending}>
-      {pending ? 'جاري الحفظ...' : mode === 'create' ? 'حفظ' : 'حفظ'}
-    </Button>
-  );
+  return <Button type="submit" disabled={pending}>{pending ? 'جاري الحفظ...' : mode === 'create' ? 'حفظ' : 'حفظ'}</Button>;
 }
 
-export function ProductForm({ mode, action, product }: ProductFormProps) {
+export function ProductForm({ mode, action, product, collections = [] }: ProductFormProps) {
   const [name, setName] = useState(product?.name ?? '');
   const [slug, setSlug] = useState(product?.slug ?? '');
   const [images, setImages] = useState<ImageInput[]>(() => {
@@ -47,10 +46,7 @@ export function ProductForm({ mode, action, product }: ProductFormProps) {
   const slugPlaceholder = useMemo(() => slugifyArabic(name), [name]);
 
   const addImage = () => {
-    setImages((current) => [
-      ...current,
-      { id: `new-${Date.now()}`, image_url: '', sort_order: current.length },
-    ]);
+    setImages((current) => [...current, { id: `new-${Date.now()}`, image_url: '', sort_order: current.length }]);
   };
 
   const removeImage = (id: string) => {
@@ -127,6 +123,18 @@ export function ProductForm({ mode, action, product }: ProductFormProps) {
         <label className="space-y-2 text-sm">
           <span className="text-ink">التصنيف</span>
           <Input name="category" defaultValue={product?.category ?? ''} />
+        </label>
+
+        <label className="space-y-2 text-sm md:col-span-2">
+          <span className="text-ink">المجموعة</span>
+          <Select name="collection_id" defaultValue={product?.collection_id ?? 'none'}>
+            <option value="none">بدون مجموعة</option>
+            {collections.map((collection) => (
+              <option key={collection.id} value={collection.id}>
+                {collection.name}
+              </option>
+            ))}
+          </Select>
         </label>
 
         <label className="flex items-center gap-2 rounded-soft border border-line bg-surface p-3 text-sm">

@@ -19,6 +19,8 @@ export type AdminProduct = {
   sale_price: number | null;
   sku: string | null;
   category: string | null;
+  collection_id: string | null;
+  collection_name: string | null;
   is_active: boolean;
   is_featured: boolean;
   created_at: string;
@@ -26,8 +28,13 @@ export type AdminProduct = {
   images: AdminProductImage[];
 };
 
-type ProductRow = Omit<AdminProduct, 'images'>;
+type ProductRow = Omit<AdminProduct, 'images' | 'collection_name'>;
 type ProductImageRow = AdminProductImage;
+type CollectionRow = {
+  id: string;
+  name: string | null;
+  is_active?: boolean | null;
+};
 
 function asNumber(value: string | number | null | undefined) {
   if (typeof value === 'number') return value;
@@ -59,11 +66,25 @@ export async function getAdminProducts() {
 
   const products = await supabase.from<ProductRow>('products', {
     select:
-      'id,name,slug,description,price,sale_price,sku,category,is_active,is_featured,created_at,updated_at',
+      'id,name,slug,description,price,sale_price,sku,category,collection_id,is_active,is_featured,created_at,updated_at',
     order: 'created_at.desc',
   });
 
   const productIds = products.map((item) => item.id);
+  const collectionIds = [...new Set(products.map((item) => item.collection_id).filter(Boolean))] as string[];
+
+  const collectionsMap = new Map<string, string>();
+
+  if (collectionIds.length > 0) {
+    const collections = await supabase.from<CollectionRow>('collections', {
+      select: 'id,name,is_active',
+      id: `in.(${collectionIds.join(',')})`,
+    });
+
+    for (const collection of collections) {
+      collectionsMap.set(collection.id, collection.name ?? 'مجموعة');
+    }
+  }
 
   if (productIds.length === 0) {
     return [] as AdminProduct[];
@@ -96,6 +117,8 @@ export async function getAdminProducts() {
     sale_price: asNumber(item.sale_price),
     sku: item.sku ?? null,
     category: item.category ?? null,
+    collection_id: item.collection_id ?? null,
+    collection_name: item.collection_id ? collectionsMap.get(item.collection_id) ?? null : null,
     is_active: item.is_active ?? false,
     is_featured: item.is_featured ?? false,
     images: imagesMap.get(item.id) ?? [],
@@ -106,7 +129,7 @@ export async function getAdminProductById(id: string) {
   const supabase = createSupabaseAdminClient();
   const rows = await supabase.from<ProductRow>('products', {
     select:
-      'id,name,slug,description,price,sale_price,sku,category,is_active,is_featured,created_at,updated_at',
+      'id,name,slug,description,price,sale_price,sku,category,collection_id,is_active,is_featured,created_at,updated_at',
     id: `eq.${id}`,
     limit: 1,
   });
@@ -123,6 +146,17 @@ export async function getAdminProductById(id: string) {
     order: 'sort_order.asc.nullslast',
   });
 
+  let collectionName: string | null = null;
+
+  if (product.collection_id) {
+    const collectionRows = await supabase.from<CollectionRow>('collections', {
+      select: 'id,name',
+      id: `eq.${product.collection_id}`,
+      limit: 1,
+    });
+    collectionName = collectionRows[0]?.name ?? null;
+  }
+
   return {
     ...product,
     name: product.name ?? '',
@@ -132,6 +166,8 @@ export async function getAdminProductById(id: string) {
     sale_price: asNumber(product.sale_price),
     sku: product.sku ?? null,
     category: product.category ?? null,
+    collection_id: product.collection_id ?? null,
+    collection_name: collectionName,
     is_active: product.is_active ?? false,
     is_featured: product.is_featured ?? false,
     images: images.map((image) => ({
@@ -148,14 +184,15 @@ export function filterAdminProducts(
     category,
     active,
     featured,
-  }: { search?: string; category?: string; active?: string; featured?: string }
+    collection,
+  }: { search?: string; category?: string; active?: string; featured?: string; collection?: string }
 ) {
   const normalizedSearch = search?.trim().toLowerCase() ?? '';
 
   return products.filter((product) => {
     const searchMatched =
       normalizedSearch.length === 0 ||
-      [product.name, product.slug, product.sku ?? '', product.category ?? '']
+      [product.name, product.slug, product.sku ?? '', product.category ?? '', product.collection_name ?? '']
         .join(' ')
         .toLowerCase()
         .includes(normalizedSearch);
@@ -174,6 +211,37 @@ export function filterAdminProducts(
       (featured === 'featured' && product.is_featured) ||
       (featured === 'normal' && !product.is_featured);
 
-    return searchMatched && categoryMatched && activeMatched && featuredMatched;
+    const collectionMatched =
+      !collection ||
+      collection === 'all' ||
+      (collection === 'none' && !product.collection_id) ||
+      product.collection_id === collection;
+
+    return searchMatched && categoryMatched && activeMatched && featuredMatched && collectionMatched;
   });
+}
+
+
+export async function updateProductCollection(productId: string, collectionId: string | null) {
+  const supabase = createSupabaseAdminClient();
+
+  try {
+    await supabase.update(
+      'products',
+      {
+        id: `eq.${productId}`,
+      },
+      {
+        collection_id: collectionId,
+        updated_at: new Date().toISOString(),
+      },
+    );
+  } catch (error) {
+    console.error('[updateProductCollection] failed', {
+      productId,
+      collectionId,
+      error,
+    });
+    throw error;
+  }
 }
