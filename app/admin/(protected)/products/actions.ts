@@ -2,8 +2,9 @@
 
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
-import { createSupabaseServerClient } from '@/lib/supabase/server';
-import { parseImagesFromFormData, slugifyArabic } from '@/lib/admin/products';
+import { createSupabaseAdminClient } from '@/lib/supabase/admin';
+import { parseImagesFromFormData } from '@/lib/admin/products';
+import { slugifyArabic } from '@/lib/admin/slug';
 
 function getRequiredValue(formData: FormData, key: string, label: string) {
   const value = `${formData.get(key) ?? ''}`.trim();
@@ -40,7 +41,7 @@ function getBooleanValue(formData: FormData, key: string) {
 }
 
 export async function createProductAction(formData: FormData) {
-  const supabase = createSupabaseServerClient();
+  const supabase = createSupabaseAdminClient();
 
   try {
     const name = getRequiredValue(formData, 'name', 'الاسم');
@@ -100,7 +101,7 @@ export async function createProductAction(formData: FormData) {
 }
 
 export async function updateProductAction(formData: FormData) {
-  const supabase = createSupabaseServerClient();
+  const supabase = createSupabaseAdminClient();
   const id = `${formData.get('id') ?? ''}`.trim();
 
   if (!id) {
@@ -171,7 +172,7 @@ export async function updateProductAction(formData: FormData) {
 }
 
 export async function deleteProductAction(formData: FormData) {
-  const supabase = createSupabaseServerClient();
+  const supabase = createSupabaseAdminClient();
   const id = `${formData.get('id') ?? ''}`.trim();
 
   if (!id) {

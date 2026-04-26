@@ -23,7 +23,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
       <header className="border-b border-line bg-surface">
         <div className="container-base flex items-center justify-between py-4">
           <div>
-            <p className="text-sm text-ink-soft">TARAF Admin</p>
+            <p className="text-sm text-ink-soft">Taraf Control Panel</p>
             <h1 className="text-lg font-semibold text-ink">إدارة المتجر</h1>
           </div>
 
