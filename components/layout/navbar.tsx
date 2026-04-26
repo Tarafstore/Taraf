@@ -1,109 +1,169 @@
-import type { ReactNode } from 'react';
+'use client';
+
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import { useEffect, useState } from 'react';
+
 import { cn } from '@/lib/utils';
 
-type NavLink = { label: string; href: string };
+type NavLink = {
+  label: string;
+  href: string;
+};
 
 type NavbarProps = {
   links: NavLink[];
   className?: string;
 };
 
-function BrandMark() {
+const utilityLinks = [
+  { label: 'الحساب', href: '/admin/login', icon: 'user' },
+  { label: 'البحث', href: '/products', icon: 'search' },
+  { label: 'المفضلة', href: '/products', icon: 'heart' },
+  { label: 'السلة', href: '/products', icon: 'bag' },
+] as const;
+
+function UtilityIcon({ type }: { type: (typeof utilityLinks)[number]['icon'] }) {
+  if (type === 'user') {
+    return (
+      <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="1.65" aria-hidden="true">
+        <circle cx="12" cy="8" r="3.2" />
+        <path d="M6 19c1.4-2.7 3.5-4 6-4s4.6 1.3 6 4" />
+      </svg>
+    );
+  }
+
+  if (type === 'search') {
+    return (
+      <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="1.65" aria-hidden="true">
+        <circle cx="11" cy="11" r="5" />
+        <path d="m15 15 4 4" />
+      </svg>
+    );
+  }
+
+  if (type === 'heart') {
+    return (
+      <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="1.65" aria-hidden="true">
+        <path d="M12 20s-6-3.8-6-8.2c0-2.2 1.6-3.8 3.6-3.8 1.3 0 2.1.6 2.4 1.2.3-.6 1.1-1.2 2.4-1.2 2 0 3.6 1.6 3.6 3.8 0 4.4-6 8.2-6 8.2Z" />
+      </svg>
+    );
+  }
+
   return (
-    <svg viewBox="0 0 40 40" className="h-8 w-8 text-brand" aria-hidden="true" fill="none" stroke="currentColor" strokeWidth="1.25">
-      <path d="M20 6l5 5-5 5-5-5 5-5Z" />
-      <path d="M20 24l5 5-5 5-5-5 5-5Z" />
-      <path d="M6 20l5-5 5 5-5 5-5-5Z" />
-      <path d="M24 20l5-5 5 5-5 5-5-5Z" />
-      <path d="M20 12v16" />
-      <path d="M12 20h16" />
+    <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="1.65" aria-hidden="true">
+      <path d="M4 7h2l2.2 8.5h8.6L19 9H8.5" />
+      <circle cx="10" cy="18" r="1" />
+      <circle cx="17" cy="18" r="1" />
     </svg>
   );
 }
 
-function ActionIcon({ children, label }: { children: ReactNode; label: string }) {
-  return (
-    <button
-      type="button"
-      aria-label={label}
-      className="inline-flex h-11 w-11 items-center justify-center rounded-full text-ink transition-colors hover:bg-surface-muted/80 hover:text-brand focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand/30 md:h-8 md:w-8 md:rounded-none md:hover:bg-transparent"
-    >
-      {children}
-    </button>
-  );
-}
-
 export function Navbar({ links, className }: NavbarProps) {
+  const pathname = usePathname();
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const [hasScrolled, setHasScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => setHasScrolled(window.scrollY > 8);
+    handleScroll();
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   return (
-    <header className={cn('border-b border-line bg-surface/95', className)}>
-      <div className="container-base flex flex-col gap-3 py-3 md:relative md:grid md:h-[88px] md:grid-cols-[1fr_auto] md:items-center md:gap-8 md:py-0">
-        <div className="flex items-center justify-between md:justify-self-start">
-          <div className="flex items-center gap-1 text-ink-soft md:gap-8">
-            <div className="hidden items-center gap-1 text-ink-soft md:flex">
-              <ActionIcon label="العربة">
-                <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="1.7">
-                  <path d="M4 7h2l2.2 8.5h8.6L19 9H8.5" />
-                  <circle cx="10" cy="18" r="1" />
-                  <circle cx="17" cy="18" r="1" />
-                </svg>
-              </ActionIcon>
-              <ActionIcon label="الملف الشخصي">
-                <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="1.7">
-                  <circle cx="12" cy="8" r="3.2" />
-                  <path d="M6 19c1.4-2.7 3.5-4 6-4s4.6 1.3 6 4" />
-                </svg>
-              </ActionIcon>
-              <ActionIcon label="بحث">
-                <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="1.7">
-                  <circle cx="11" cy="11" r="5" />
-                  <path d="m15 15 4 4" />
-                </svg>
-              </ActionIcon>
-            </div>
-            <ActionIcon label="القائمة">
-              <svg viewBox="0 0 24 24" className="h-4 w-4 md:hidden" fill="none" stroke="currentColor" strokeWidth="1.7">
-                <path d="M4 7h16M4 12h16M4 17h16" />
-              </svg>
-              <svg viewBox="0 0 24 24" className="hidden h-4 w-4 md:block" fill="none" stroke="currentColor" strokeWidth="1.7">
-                <circle cx="11" cy="11" r="5" />
-                <path d="m15 15 4 4" />
-              </svg>
-            </ActionIcon>
+    <header
+      className={cn(
+        'sticky top-0 z-40 border-b border-[#e5d6c5] bg-[#fbf7f0]/96 backdrop-blur-sm transition-shadow duration-300 ease-out',
+        hasScrolled && 'shadow-[0_4px_12px_rgba(47,29,18,0.05)]',
+        className,
+      )}
+    >
+      <div className="h-[30px] border-b border-[#e5d6c5] bg-[#efe4d6] text-center text-[11px] leading-[30px] tracking-[0.02em] text-[#7a6654]">
+        شحن سريع لجميع دول الخليج • تصاميم حصرية • جودة استثنائية
+      </div>
+
+      <div className="mx-auto w-full max-w-[1320px] px-4 sm:px-6 lg:px-8">
+        <div className="grid h-[68px] grid-cols-[1fr_auto_1fr] items-center">
+          <div className="hidden items-center gap-1.5 text-[#2f1d12] md:flex">
+            {utilityLinks.map((item) => (
+              <Link
+                key={item.label}
+                href={item.href}
+                aria-label={item.label}
+                className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-transparent transition-all duration-300 ease-out hover:border-[#e5d6c5] hover:text-[#b8925b]"
+              >
+                <UtilityIcon type={item.icon} />
+              </Link>
+            ))}
           </div>
 
-          <div className="pointer-events-none flex min-w-[112px] flex-col items-center justify-center gap-1 text-center leading-none text-brand md:absolute md:left-1/2 md:top-1/2 md:min-w-[130px] md:-translate-x-1/2 md:-translate-y-1/2">
-            <BrandMark />
-            <p className="text-[28px] tracking-[0.14em] [font-family:Georgia,'Times_New_Roman',serif] md:text-[37px] md:tracking-[0.18em]">TARAF</p>
-            <p className="text-[8px] uppercase tracking-[0.3em] text-ink-soft md:text-[9px] md:tracking-[0.37em]">Mukhawar</p>
+          <Link href="/" className="text-center leading-none text-[#2f1d12]" aria-label="TARAF MUKHAWAR">
+            <p className="text-[33px] tracking-[0.23em] [font-family:Georgia,'Times_New_Roman',serif] md:text-[36px]">TARAF</p>
+            <p className="mt-0.5 text-[9px] uppercase tracking-[0.34em] text-[#7a6654]">MUKHAWAR</p>
+          </Link>
+
+          <div className="flex items-center justify-end gap-2 md:hidden">
+            <button
+              type="button"
+              onClick={() => setMobileOpen((prev) => !prev)}
+              className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-[#e5d6c5] text-[#2f1d12]"
+              aria-label={mobileOpen ? 'إغلاق القائمة' : 'فتح القائمة'}
+              aria-expanded={mobileOpen}
+              aria-controls="storefront-mobile-nav"
+            >
+              <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true">
+                {mobileOpen ? <path d="M6 6l12 12M18 6 6 18" /> : <path d="M4 7h16M4 12h16M4 17h16" />}
+              </svg>
+            </button>
+
+            <Link href="/products" aria-label="السلة" className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-[#e5d6c5] text-[#2f1d12]">
+              <UtilityIcon type="bag" />
+            </Link>
           </div>
 
-          <div className="flex items-center gap-1 text-ink-soft md:justify-self-end">
-            <ActionIcon label="المفضلة">
-              <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="1.7">
-                <path d="M12 20s-6-3.8-6-8.2c0-2.2 1.6-3.8 3.6-3.8 1.3 0 2.1.6 2.4 1.2.3-.6 1.1-1.2 2.4-1.2 2 0 3.6 1.6 3.6 3.8 0 4.4-6 8.2-6 8.2Z" />
-              </svg>
-            </ActionIcon>
-            <ActionIcon label="العربة">
-              <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="1.7">
-                <path d="M4 7h2l2.2 8.5h8.6L19 9H8.5" />
-                <circle cx="10" cy="18" r="1" />
-                <circle cx="17" cy="18" r="1" />
-              </svg>
-            </ActionIcon>
-          </div>
+          <nav className="hidden items-center justify-end gap-8 text-[14px] text-[#2f1d12] md:flex" aria-label="روابط الموقع">
+            {links.map((link) => {
+              const active = pathname === link.href;
+
+              return (
+                <Link key={link.label} href={link.href} className="group relative pb-1 transition-colors duration-300 ease-out hover:text-[#b8925b]">
+                  {link.label}
+                  <span
+                    className={cn(
+                      'absolute bottom-0 right-0 h-px w-full origin-right scale-x-0 bg-[#b8925b] transition-transform duration-300 ease-out group-hover:scale-x-100',
+                      active && 'scale-x-100',
+                    )}
+                  />
+                </Link>
+              );
+            })}
+          </nav>
         </div>
 
-        <nav className="no-scrollbar -mx-2 flex snap-x snap-mandatory items-center gap-2 overflow-x-auto px-2 pb-1 text-sm text-ink md:mx-0 md:justify-center md:gap-9 md:overflow-visible md:px-0 md:pb-0 md:text-[13px]">
-          {links.map((link) => (
-            <Link
-              key={link.label}
-              href={link.href}
-              className="snap-start whitespace-nowrap rounded-full border border-line/80 bg-surface px-4 py-2.5 transition-colors hover:text-brand md:rounded-none md:border-none md:bg-transparent md:px-0 md:py-0"
-            >
-              {link.label}
-            </Link>
-          ))}
+        <nav
+          id="storefront-mobile-nav"
+          className={cn(
+            'grid overflow-hidden border-t border-[#e5d6c5] text-[#2f1d12] transition-all duration-300 ease-out md:hidden',
+            mobileOpen ? 'max-h-80 py-2.5 opacity-100' : 'max-h-0 py-0 opacity-0',
+          )}
+          aria-label="روابط الموقع للجوال"
+        >
+          <div className="space-y-1">
+            {links.map((link) => (
+              <Link
+                key={link.label}
+                href={link.href}
+                onClick={() => setMobileOpen(false)}
+                className={cn(
+                  'block rounded-md px-3 py-2.5 text-sm',
+                  pathname === link.href ? 'bg-[#efe4d6] text-[#2f1d12]' : 'hover:bg-[#f3eadf]',
+                )}
+              >
+                {link.label}
+              </Link>
+            ))}
+          </div>
         </nav>
       </div>
     </header>

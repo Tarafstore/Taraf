@@ -40,6 +40,16 @@ function getBooleanValue(formData: FormData, key: string) {
   return formData.get(key) === 'on';
 }
 
+function getCollectionIdValue(formData: FormData) {
+  const raw = `${formData.get('collection_id') ?? ''}`.trim();
+
+  if (!raw || raw === 'none') {
+    return null;
+  }
+
+  return raw;
+}
+
 export async function createProductAction(formData: FormData) {
   const supabase = createSupabaseAdminClient();
 
@@ -59,6 +69,7 @@ export async function createProductAction(formData: FormData) {
     const category = `${formData.get('category') ?? ''}`.trim() || null;
     const isActive = getBooleanValue(formData, 'is_active');
     const isFeatured = getBooleanValue(formData, 'is_featured');
+    const collectionId = getCollectionIdValue(formData);
     const images = parseImagesFromFormData(formData);
 
     const createdRows = await supabase.insert<{ id: string }>('products', {
@@ -71,6 +82,7 @@ export async function createProductAction(formData: FormData) {
       category,
       is_active: isActive,
       is_featured: isFeatured,
+      collection_id: collectionId,
     });
 
     const createdProduct = createdRows[0];
@@ -124,6 +136,7 @@ export async function updateProductAction(formData: FormData) {
     const category = `${formData.get('category') ?? ''}`.trim() || null;
     const isActive = getBooleanValue(formData, 'is_active');
     const isFeatured = getBooleanValue(formData, 'is_featured');
+    const collectionId = getCollectionIdValue(formData);
     const images = parseImagesFromFormData(formData);
 
     await supabase.update(
@@ -141,6 +154,7 @@ export async function updateProductAction(formData: FormData) {
         category,
         is_active: isActive,
         is_featured: isFeatured,
+        collection_id: collectionId,
         updated_at: new Date().toISOString(),
       }
     );
