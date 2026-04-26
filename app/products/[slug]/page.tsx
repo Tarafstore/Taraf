@@ -87,12 +87,12 @@ export default async function ProductDetailsPage({ params }: ProductDetailsPageP
                   className="h-full w-full rounded-[1.1rem] object-cover object-center"
                 />
               </div>
-              <span className="absolute right-4 top-4 rounded-full border border-[#d8c8b8] bg-white/75 px-5 py-1.5 text-sm text-[#a27b55] backdrop-blur-sm">
+              <span className="absolute right-3 top-3 rounded-full border border-[#d8c8b8] bg-white/80 px-4 py-1 text-xs text-[#a27b55] backdrop-blur-sm">
                 جديد
               </span>
               <button
                 type="button"
-                className="absolute bottom-4 left-4 inline-flex h-11 w-11 items-center justify-center rounded-full border border-[#d9cab9] bg-white/90 text-[#4b3623] shadow-sm"
+                className="absolute bottom-3 left-3 inline-flex h-9 w-9 items-center justify-center rounded-full border border-[#d9cab9] bg-white/90 text-[#4b3623] shadow-sm"
                 aria-label="تكبير الصورة"
               >
                 ⊕
@@ -102,7 +102,7 @@ export default async function ProductDetailsPage({ params }: ProductDetailsPageP
             <div className="flex items-center justify-center gap-2.5">
               <button
                 type="button"
-                className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-[#e0d4c8] bg-[#f9f5ef] text-2xl leading-none text-[#8e7963]"
+                className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-[#e0d4c8] bg-[#f9f5ef] text-xl leading-none text-[#8e7963]"
                 aria-label="الصورة السابقة"
               >
                 ‹
@@ -111,7 +111,7 @@ export default async function ProductDetailsPage({ params }: ProductDetailsPageP
                 {thumbs.map((image, index) => (
                   <div
                     key={image.id}
-                    className={`overflow-hidden rounded-[0.7rem] border bg-[#f6f1ea] ${
+                    className={`overflow-hidden rounded-[0.6rem] border bg-[#f6f1ea] ${
                       index === 0 ? 'border-[#b69773] ring-1 ring-[#ccb395]' : 'border-[#e4d8cb]'
                     }`}
                   >
@@ -127,7 +127,7 @@ export default async function ProductDetailsPage({ params }: ProductDetailsPageP
               </div>
               <button
                 type="button"
-                className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-[#e0d4c8] bg-[#f9f5ef] text-2xl leading-none text-[#8e7963]"
+                className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-[#e0d4c8] bg-[#f9f5ef] text-xl leading-none text-[#8e7963]"
                 aria-label="الصورة التالية"
               >
                 ›
@@ -165,10 +165,10 @@ export default async function ProductDetailsPage({ params }: ProductDetailsPageP
               </button>
               <button
                 type="button"
-                className="inline-flex h-14 items-center justify-center gap-3 rounded-2xl bg-gradient-to-r from-[#3f2a1a] to-[#2f1e11] px-5 text-3xl font-medium text-[#fbf6ee] shadow-[0_8px_24px_rgba(42,24,13,0.25)] transition-opacity hover:opacity-95"
+                className="inline-flex h-11 items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-[#3f2a1a] to-[#2f1e11] px-4 text-[1.2rem] font-medium text-[#fbf6ee] shadow-[0_8px_24px_rgba(42,24,13,0.25)] transition-opacity hover:opacity-95"
               >
                 <span>اطلب الآن</span>
-                <span className="text-[1.65rem]">⌂</span>
+                <span className="text-[1.05rem]">⌂</span>
               </button>
             </div>
 
@@ -187,7 +187,7 @@ export default async function ProductDetailsPage({ params }: ProductDetailsPageP
         </div>
 
         {relatedProducts.length > 0 && (
-          <div className="mt-8 space-y-4 rounded-2xl border border-line bg-surface p-4 md:p-5">
+          <div className="mt-6 space-y-3 rounded-2xl border border-line bg-surface p-3.5 md:p-4">
             <h2 className="text-base font-medium text-ink md:text-lg">منتجات مشابهة</h2>
             <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
               {relatedProducts.map((relatedProduct) => (
