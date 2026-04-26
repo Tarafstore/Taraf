@@ -8,9 +8,9 @@ type StorefrontShellProps = {
 const topLinks = [
   { label: 'الرئيسية', href: '/' },
   { label: 'المتجر', href: '/products' },
-  { label: 'المخاوير', href: '#' },
-  { label: 'من نحن', href: '#' },
-  { label: 'تواصل معنا', href: '#' },
+  { label: 'المخاوير', href: '/products' },
+  { label: 'من نحن', href: '/about' },
+  { label: 'تواصل معنا', href: '/contact' },
 ];
 
 export function StorefrontShell({ children }: StorefrontShellProps) {
