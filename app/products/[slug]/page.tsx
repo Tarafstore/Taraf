@@ -76,15 +76,15 @@ export default async function ProductDetailsPage({ params }: ProductDetailsPageP
 
   return (
     <StorefrontShell>
-      <section className="pt-1 md:pt-2">
-        <div className="grid gap-4 lg:[direction:ltr] lg:grid-cols-[0.9fr_1fr] lg:items-start lg:gap-6">
-          <div className="space-y-2.5">
-            <div className="relative overflow-hidden rounded-[1.1rem] border border-[#e4d8cc] bg-[#f8f2ea] p-1.5 shadow-[0_8px_22px_rgba(58,40,24,0.05)]">
-              <div className="aspect-[5/4] w-full">
+      <section className="rounded-[1.95rem] border border-[#e7ddd2] bg-[#fcfaf7] p-4 shadow-[0_10px_30px_rgba(60,42,24,0.04)] md:p-7 lg:p-8">
+        <div className="grid gap-6 lg:[direction:ltr] lg:grid-cols-[0.95fr_1fr] lg:items-start lg:gap-8">
+          <div className="space-y-3.5">
+            <div className="relative overflow-hidden rounded-[1.45rem] border border-[#e4d8cc] bg-[#f8f2ea] p-2 shadow-[0_12px_30px_rgba(58,40,24,0.05)]">
+              <div className="aspect-[4/3] w-full">
                 <img
                   src={primaryImage.image_url}
                   alt={primaryImage.alt_text ?? product.name}
-                  className="h-full w-full rounded-[0.9rem] object-cover object-center"
+                  className="h-full w-full rounded-[1.1rem] object-cover object-center"
                 />
               </div>
               <span className="absolute right-3 top-3 rounded-full border border-[#d8c8b8] bg-white/80 px-4 py-1 text-xs text-[#a27b55] backdrop-blur-sm">
@@ -99,7 +99,7 @@ export default async function ProductDetailsPage({ params }: ProductDetailsPageP
               </button>
             </div>
 
-            <div className="flex items-center justify-center gap-2">
+            <div className="flex items-center justify-center gap-2.5">
               <button
                 type="button"
                 className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-[#e0d4c8] bg-[#f9f5ef] text-xl leading-none text-[#8e7963]"
@@ -107,7 +107,7 @@ export default async function ProductDetailsPage({ params }: ProductDetailsPageP
               >
                 ‹
               </button>
-              <div className="grid flex-1 grid-cols-4 gap-2">
+              <div className="grid flex-1 grid-cols-4 gap-2.5">
                 {thumbs.map((image, index) => (
                   <div
                     key={image.id}
@@ -135,33 +135,33 @@ export default async function ProductDetailsPage({ params }: ProductDetailsPageP
             </div>
           </div>
 
-          <div dir="rtl" className="rounded-[1.05rem] border border-[#e9dfd5] bg-[#fcfaf7] px-2 py-2.5 lg:px-3.5 lg:py-3">
-            <div className="space-y-1">
-              {product.category && <p className="text-base text-[#8f7b68]">{product.category}</p>}
-              <h1 className="text-[2.05rem] font-medium leading-[1.2] text-[#2e2117] md:text-[2.45rem]">{product.name}</h1>
-              <p className="text-[2rem] font-medium text-[#a88662] md:text-[2.2rem]">{formatProductPrice(product.price)}</p>
+          <div dir="rtl" className="rounded-[1.35rem] bg-[#fcfaf7] px-1 py-2 lg:px-4 lg:py-3">
+            <div className="space-y-1.5">
+              {product.category && <p className="text-lg text-[#8f7b68]">{product.category}</p>}
+              <h1 className="text-[2.5rem] font-medium leading-[1.2] text-[#2e2117] md:text-[3.15rem]">{product.name}</h1>
+              <p className="text-4xl font-medium text-[#a88662]">{formatProductPrice(product.price)}</p>
             </div>
 
             {product.description && (
-              <p className="mt-3 max-w-[34rem] text-[1.05rem] leading-8 text-[#7f6851] md:text-[1.2rem]">
+              <p className="mt-4 max-w-[34rem] text-xl leading-10 text-[#7f6851] md:text-[1.65rem]">
                 {product.description}
               </p>
             )}
 
-            <div className="mt-3 inline-flex items-center gap-2 rounded-full bg-[#f3ece4] px-3.5 py-1.5 text-[1.2rem] font-medium text-[#3f2f21] md:text-[1.35rem]">
+            <div className="mt-4 inline-flex items-center gap-2 rounded-full bg-[#f3ece4] px-4 py-2 text-[1.72rem] font-medium text-[#3f2f21] md:text-3xl">
               <span className="text-[#b4936e]">☆</span>
               <span>4.9</span>
             </div>
 
-            <div className="mt-4 border-t border-[#e4d8cc]" />
+            <div className="mt-6 border-t border-[#e4d8cc]" />
 
-            <div className="mt-4 grid gap-2 sm:grid-cols-2">
+            <div className="mt-6 grid gap-2.5 sm:grid-cols-2">
               <button
                 type="button"
-                className="inline-flex h-11 items-center justify-center gap-2 rounded-xl border border-[#ddd0c3] bg-gradient-to-b from-[#fbf8f4] to-[#f5eee6] px-4 text-[1.15rem] font-medium text-[#3a2a1d] shadow-[inset_0_1px_0_rgba(255,255,255,0.75)] transition-colors hover:from-[#f8f3ed] hover:to-[#f2eae1]"
+                className="inline-flex h-13 items-center justify-center gap-2.5 rounded-2xl border border-[#ddd0c3] bg-gradient-to-b from-[#fbf8f4] to-[#f5eee6] px-5 text-[1.7rem] font-medium text-[#3a2a1d] shadow-[inset_0_1px_0_rgba(255,255,255,0.75)] transition-colors hover:from-[#f8f3ed] hover:to-[#f2eae1]"
               >
                 <span>واتساب</span>
-                <span className="text-[1.1rem] leading-none text-[#7f6a56]">◌</span>
+                <span className="text-[1.45rem] leading-none text-[#7f6a56]">◌</span>
               </button>
               <button
                 type="button"
@@ -172,11 +172,11 @@ export default async function ProductDetailsPage({ params }: ProductDetailsPageP
               </button>
             </div>
 
-            <div className="mt-4 grid gap-2 md:grid-cols-3">
+            <div className="mt-6 grid gap-2.5 md:grid-cols-3">
               {trustFeatures.map((feature) => (
                 <span
                   key={feature}
-                  className="inline-flex items-center justify-center gap-2 rounded-full border border-[#e7ddd2] bg-[#f3ede6] px-3 py-2 text-[0.96rem] text-[#3a2b1f] md:px-4"
+                  className="inline-flex items-center justify-center gap-2.5 rounded-full border border-[#e7ddd2] bg-[#f3ede6] px-4 py-2.5 text-[1.34rem] text-[#3a2b1f] md:px-5"
                 >
                   <TinyIcon>✧</TinyIcon>
                   {feature}
