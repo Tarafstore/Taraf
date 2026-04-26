@@ -13,7 +13,7 @@ type ProductDetailsPageProps = {
 
 function TinyIcon({ children }: { children: React.ReactNode }) {
   return (
-    <span className="inline-flex h-7 w-7 items-center justify-center rounded-full border border-[#d8c8b8] bg-[#f8f3ed] text-[#9c7a58]">
+    <span className="inline-flex h-6 w-6 items-center justify-center rounded-full border border-[#decebd] bg-[#f8f3ed] text-[0.92rem] text-[#9c7a58]">
       {children}
     </span>
   );
@@ -76,42 +76,42 @@ export default async function ProductDetailsPage({ params }: ProductDetailsPageP
 
   return (
     <StorefrontShell>
-      <section className="rounded-[1.95rem] border border-[#e7ddd2] bg-[#fcfaf7] p-4 shadow-[0_10px_30px_rgba(60,42,24,0.04)] md:p-7 lg:p-8">
-        <div className="grid gap-7 lg:[direction:ltr] lg:grid-cols-[1.08fr_1fr] lg:items-start lg:gap-9">
-          <div className="space-y-4">
-            <div className="relative overflow-hidden rounded-[1.35rem] border border-[#e2d4c6] bg-[#f7f0e8]">
-              <div className="aspect-[4/3] w-full">
+      <section className="pt-1 md:pt-2">
+        <div className="grid gap-4 lg:[direction:ltr] lg:grid-cols-[0.9fr_1fr] lg:items-start lg:gap-6">
+          <div className="space-y-2.5">
+            <div className="relative overflow-hidden rounded-[1.1rem] border border-[#e4d8cc] bg-[#f8f2ea] p-1.5 shadow-[0_8px_22px_rgba(58,40,24,0.05)]">
+              <div className="aspect-[5/4] w-full">
                 <img
                   src={primaryImage.image_url}
                   alt={primaryImage.alt_text ?? product.name}
-                  className="h-full w-full object-cover object-center"
+                  className="h-full w-full rounded-[0.9rem] object-cover object-center"
                 />
               </div>
-              <span className="absolute right-4 top-4 rounded-full border border-[#d8c8b8] bg-white/75 px-5 py-1.5 text-sm text-[#a27b55] backdrop-blur-sm">
+              <span className="absolute right-3 top-3 rounded-full border border-[#d8c8b8] bg-white/80 px-4 py-1 text-xs text-[#a27b55] backdrop-blur-sm">
                 جديد
               </span>
               <button
                 type="button"
-                className="absolute bottom-4 left-4 inline-flex h-11 w-11 items-center justify-center rounded-full border border-[#d9cab9] bg-white/90 text-[#4b3623] shadow-sm"
+                className="absolute bottom-3 left-3 inline-flex h-9 w-9 items-center justify-center rounded-full border border-[#d9cab9] bg-white/90 text-[#4b3623] shadow-sm"
                 aria-label="تكبير الصورة"
               >
                 ⊕
               </button>
             </div>
 
-            <div className="flex items-center justify-center gap-3">
+            <div className="flex items-center justify-center gap-2">
               <button
                 type="button"
-                className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-[#e0d4c8] bg-[#f9f5ef] text-2xl leading-none text-[#8e7963]"
+                className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-[#e0d4c8] bg-[#f9f5ef] text-xl leading-none text-[#8e7963]"
                 aria-label="الصورة السابقة"
               >
                 ‹
               </button>
-              <div className="grid flex-1 grid-cols-4 gap-3">
+              <div className="grid flex-1 grid-cols-4 gap-2">
                 {thumbs.map((image, index) => (
                   <div
                     key={image.id}
-                    className={`overflow-hidden rounded-[0.7rem] border bg-[#f6f1ea] ${
+                    className={`overflow-hidden rounded-[0.6rem] border bg-[#f6f1ea] ${
                       index === 0 ? 'border-[#b69773] ring-1 ring-[#ccb395]' : 'border-[#e4d8cb]'
                     }`}
                   >
@@ -127,7 +127,7 @@ export default async function ProductDetailsPage({ params }: ProductDetailsPageP
               </div>
               <button
                 type="button"
-                className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-[#e0d4c8] bg-[#f9f5ef] text-2xl leading-none text-[#8e7963]"
+                className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-[#e0d4c8] bg-[#f9f5ef] text-xl leading-none text-[#8e7963]"
                 aria-label="الصورة التالية"
               >
                 ›
@@ -135,48 +135,48 @@ export default async function ProductDetailsPage({ params }: ProductDetailsPageP
             </div>
           </div>
 
-          <div dir="rtl" className="rounded-[1.35rem] bg-[#fcfaf7] px-1 py-2 lg:px-4 lg:py-3">
-            <div className="space-y-2">
-              {product.category && <p className="text-lg text-[#8f7b68]">{product.category}</p>}
-              <h1 className="text-[2.5rem] font-medium leading-[1.2] text-[#2e2117] md:text-[3.15rem]">{product.name}</h1>
-              <p className="text-4xl font-medium text-[#a88662]">{formatProductPrice(product.price)}</p>
+          <div dir="rtl" className="rounded-[1.05rem] border border-[#e9dfd5] bg-[#fcfaf7] px-2 py-2.5 lg:px-3.5 lg:py-3">
+            <div className="space-y-1">
+              {product.category && <p className="text-base text-[#8f7b68]">{product.category}</p>}
+              <h1 className="text-[2.05rem] font-medium leading-[1.2] text-[#2e2117] md:text-[2.45rem]">{product.name}</h1>
+              <p className="text-[2rem] font-medium text-[#a88662] md:text-[2.2rem]">{formatProductPrice(product.price)}</p>
             </div>
 
             {product.description && (
-              <p className="mt-5 max-w-[34rem] text-xl leading-10 text-[#7f6851] md:text-[1.65rem]">
+              <p className="mt-3 max-w-[34rem] text-[1.05rem] leading-8 text-[#7f6851] md:text-[1.2rem]">
                 {product.description}
               </p>
             )}
 
-            <div className="mt-5 inline-flex items-center gap-2 rounded-full bg-[#f3ece4] px-4 py-2 text-[1.75rem] font-medium text-[#3f2f21] md:text-3xl">
+            <div className="mt-3 inline-flex items-center gap-2 rounded-full bg-[#f3ece4] px-3.5 py-1.5 text-[1.2rem] font-medium text-[#3f2f21] md:text-[1.35rem]">
               <span className="text-[#b4936e]">☆</span>
               <span>4.9</span>
             </div>
 
-            <div className="mt-7 border-t border-[#e4d8cc]" />
+            <div className="mt-4 border-t border-[#e4d8cc]" />
 
-            <div className="mt-7 grid gap-3 sm:grid-cols-2">
+            <div className="mt-4 grid gap-2 sm:grid-cols-2">
               <button
                 type="button"
-                className="inline-flex h-14 items-center justify-center gap-3 rounded-2xl border border-[#d6c7b8] bg-[#faf7f3] px-5 text-3xl font-medium text-[#2f2217] transition-colors hover:bg-[#f2ece5]"
+                className="inline-flex h-11 items-center justify-center gap-2 rounded-xl border border-[#ddd0c3] bg-gradient-to-b from-[#fbf8f4] to-[#f5eee6] px-4 text-[1.15rem] font-medium text-[#3a2a1d] shadow-[inset_0_1px_0_rgba(255,255,255,0.75)] transition-colors hover:from-[#f8f3ed] hover:to-[#f2eae1]"
               >
                 <span>واتساب</span>
-                <span className="text-[1.7rem]">◌</span>
+                <span className="text-[1.1rem] leading-none text-[#7f6a56]">◌</span>
               </button>
               <button
                 type="button"
-                className="inline-flex h-14 items-center justify-center gap-3 rounded-2xl bg-gradient-to-r from-[#3f2a1a] to-[#2f1e11] px-5 text-3xl font-medium text-[#fbf6ee] shadow-[0_8px_24px_rgba(42,24,13,0.25)] transition-opacity hover:opacity-95"
+                className="inline-flex h-11 items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-[#3f2a1a] to-[#2f1e11] px-4 text-[1.2rem] font-medium text-[#fbf6ee] shadow-[0_8px_24px_rgba(42,24,13,0.25)] transition-opacity hover:opacity-95"
               >
                 <span>اطلب الآن</span>
-                <span className="text-[1.65rem]">⌂</span>
+                <span className="text-[1.05rem]">⌂</span>
               </button>
             </div>
 
-            <div className="mt-7 grid gap-3 md:grid-cols-3">
+            <div className="mt-4 grid gap-2 md:grid-cols-3">
               {trustFeatures.map((feature) => (
                 <span
                   key={feature}
-                  className="inline-flex items-center justify-center gap-3 rounded-full bg-[#f1ebe4] px-5 py-3 text-2xl text-[#3a2b1f]"
+                  className="inline-flex items-center justify-center gap-2 rounded-full border border-[#e7ddd2] bg-[#f3ede6] px-3 py-2 text-[0.96rem] text-[#3a2b1f] md:px-4"
                 >
                   <TinyIcon>✧</TinyIcon>
                   {feature}
@@ -187,7 +187,7 @@ export default async function ProductDetailsPage({ params }: ProductDetailsPageP
         </div>
 
         {relatedProducts.length > 0 && (
-          <div className="mt-8 space-y-4 rounded-2xl border border-line bg-surface p-4 md:p-5">
+          <div className="mt-6 space-y-3 rounded-2xl border border-line bg-surface p-3.5 md:p-4">
             <h2 className="text-base font-medium text-ink md:text-lg">منتجات مشابهة</h2>
             <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
               {relatedProducts.map((relatedProduct) => (
