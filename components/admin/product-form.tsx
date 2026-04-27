@@ -25,7 +25,11 @@ type ImageInput = {
 function SubmitButton({ mode }: { mode: ProductFormProps['mode'] }) {
   const { pending } = useFormStatus();
 
-  return <Button type="submit" disabled={pending}>{pending ? 'جاري الحفظ...' : mode === 'create' ? 'حفظ' : 'حفظ'}</Button>;
+  return (
+    <Button type="submit" disabled={pending} className="w-full sm:w-auto">
+      {pending ? 'جاري الحفظ...' : mode === 'create' ? 'حفظ' : 'حفظ'}
+    </Button>
+  );
 }
 
 export function ProductForm({ mode, action, product, collections = [] }: ProductFormProps) {
@@ -158,7 +162,7 @@ export function ProductForm({ mode, action, product, collections = [] }: Product
 
         <div className="space-y-3">
           {images.map((image, index) => (
-            <div key={image.id} className="grid gap-2 rounded-soft border border-line bg-white p-3 md:grid-cols-[1fr_130px_auto]">
+            <div key={image.id} className="grid gap-2 rounded-soft border border-line bg-white p-3 md:grid-cols-[minmax(0,1fr)_130px_auto]">
               <label className="space-y-1 text-xs text-ink-soft">
                 <span>رابط الصورة</span>
                 <Input
@@ -189,9 +193,9 @@ export function ProductForm({ mode, action, product, collections = [] }: Product
         </div>
       </div>
 
-      <div className="flex gap-2">
+      <div className="flex flex-col gap-2 sm:flex-row">
         <SubmitButton mode={mode} />
-        <Button type="button" variant="secondary" onClick={() => window.history.back()}>
+        <Button type="button" variant="secondary" onClick={() => window.history.back()} className="w-full sm:w-auto">
           إلغاء
         </Button>
       </div>

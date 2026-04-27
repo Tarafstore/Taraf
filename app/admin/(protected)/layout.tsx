@@ -28,18 +28,18 @@ export default async function AdminLayout({ children }: { children: React.ReactN
             <h1 className="text-lg font-semibold text-ink">إدارة المتجر</h1>
           </div>
 
-          <div className="flex flex-wrap items-center gap-2">
+          <div className="flex w-full flex-wrap items-stretch gap-2 sm:w-auto sm:items-center">
             <Link href="/admin/products/new">
-              <Button type="button">إضافة منتج</Button>
+              <Button type="button" className="w-full sm:w-auto">إضافة منتج</Button>
             </Link>
             <Link
               href="/"
-              className="rounded-soft border border-line bg-white px-4 py-2 text-sm text-ink transition hover:bg-surface-muted"
+              className="rounded-soft border border-line bg-white px-4 py-2 text-center text-sm text-ink transition hover:bg-surface-muted"
             >
               العودة للمتجر
             </Link>
             <form action={logoutAdminAction}>
-              <Button type="submit" variant="secondary">
+              <Button type="submit" variant="secondary" className="w-full sm:w-auto">
                 تسجيل الخروج
               </Button>
             </form>

@@ -80,7 +80,7 @@ export default async function ProductDetailsPage({ params }: ProductDetailsPageP
         <div className="grid gap-4 lg:[direction:ltr] lg:grid-cols-[0.9fr_1fr] lg:items-start lg:gap-6">
           <div className="space-y-2.5">
             <div className="relative overflow-hidden rounded-[1.2rem] border border-[#e4d8cc] bg-[#f8f2ea] p-1.5 shadow-[0_8px_20px_rgba(58,40,24,0.05)]">
-              <div className="aspect-[4/3] w-full">
+              <div className="aspect-[4/5] max-h-[620px] w-full">
                 <img
                   src={primaryImage.image_url}
                   alt={primaryImage.alt_text ?? product.name}
@@ -155,24 +155,24 @@ export default async function ProductDetailsPage({ params }: ProductDetailsPageP
 
             <div className="mt-4 border-t border-[#e4d8cc]" />
 
-            <div className="mt-4 grid gap-2 sm:grid-cols-2">
+            <div className="mt-4 grid gap-2 md:grid-cols-2">
               <button
                 type="button"
-                className="inline-flex h-11 items-center justify-center gap-2.5 rounded-2xl border border-[#ddd0c3] bg-gradient-to-b from-[#fbf8f4] to-[#f5eee6] px-4 text-lg font-medium text-[#3a2a1d] shadow-[inset_0_1px_0_rgba(255,255,255,0.75)] transition-colors hover:from-[#f8f3ed] hover:to-[#f2eae1]"
+                className="inline-flex h-11 w-full items-center justify-center gap-2.5 rounded-2xl border border-[#ddd0c3] bg-gradient-to-b from-[#fbf8f4] to-[#f5eee6] px-4 text-lg font-medium text-[#3a2a1d] shadow-[inset_0_1px_0_rgba(255,255,255,0.75)] transition-colors hover:from-[#f8f3ed] hover:to-[#f2eae1]"
               >
                 <span>واتساب</span>
                 <span className="text-base leading-none text-[#7f6a56]">◌</span>
               </button>
               <button
                 type="button"
-                className="inline-flex h-11 items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-[#3f2a1a] to-[#2f1e11] px-5 text-lg md:text-xl font-medium text-[#fbf6ee] shadow-[0_8px_24px_rgba(42,24,13,0.25)] transition-opacity hover:opacity-95"
+                className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-[#3f2a1a] to-[#2f1e11] px-5 text-lg font-medium text-[#fbf6ee] shadow-[0_8px_24px_rgba(42,24,13,0.25)] transition-opacity hover:opacity-95 md:text-xl"
               >
                 <span>اطلب الآن</span>
                 <span className="text-base">⌂</span>
               </button>
             </div>
 
-            <div className="mt-4 grid gap-2 md:grid-cols-3">
+            <div className="mt-4 grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
               {trustFeatures.map((feature) => (
                 <span
                   key={feature}
@@ -189,7 +189,7 @@ export default async function ProductDetailsPage({ params }: ProductDetailsPageP
         {relatedProducts.length > 0 && (
           <div className="mt-6 space-y-3 rounded-2xl border border-line bg-surface p-4 md:p-5">
             <h2 className="text-base font-medium text-ink md:text-lg">منتجات مشابهة</h2>
-            <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-4">
+            <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-4">
               {relatedProducts.map((relatedProduct) => (
                 <ProductCard key={relatedProduct.id} product={relatedProduct} />
               ))}

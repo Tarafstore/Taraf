@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react';
 
+import { Footer } from '@/components/layout/footer';
 import { Navbar } from '@/components/layout/navbar';
 
 type StorefrontShellProps = {
@@ -17,9 +18,10 @@ const topLinks = [
 
 export function StorefrontShell({ children, containerized = true }: StorefrontShellProps) {
   return (
-    <main className="min-h-screen bg-[#fbf7f0]">
+    <main className="min-h-screen bg-[#fbf7f0] overflow-x-clip">
       <Navbar links={topLinks} />
-      {containerized ? <section className="container-base py-5 md:py-7">{children}</section> : children}
+      {containerized ? <section className="container-base py-4 md:py-6 lg:py-8">{children}</section> : children}
+      <Footer />
     </main>
   );
 }

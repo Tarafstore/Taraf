@@ -64,7 +64,7 @@ export default async function AdminCollectionsPage({ searchParams }: AdminCollec
             <span>نشطة</span>
           </label>
           <div className="md:col-span-2">
-            <Button type="submit">حفظ المجموعة</Button>
+            <Button type="submit" className="w-full sm:w-auto">حفظ المجموعة</Button>
           </div>
         </form>
       </Card>
@@ -90,7 +90,7 @@ export default async function AdminCollectionsPage({ searchParams }: AdminCollec
               </label>
 
               <div className="md:col-span-2 flex flex-wrap items-center gap-2">
-                <Button type="submit">حفظ التعديلات</Button>
+                <Button type="submit" className="w-full sm:w-auto">حفظ التعديلات</Button>
                 <Link href={`/collections/${collection.slug}`} target="_blank">
                   <Button type="button" variant="secondary">
                     معاينة بالمتجر

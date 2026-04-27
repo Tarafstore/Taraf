@@ -67,21 +67,21 @@ export default async function Home() {
 
   return (
     <StorefrontShell containerized={false}>
-      <div className="mx-auto w-full max-w-[1320px] px-4 pb-12 pt-3 sm:px-6 lg:px-8 lg:pb-14">
+      <div className="mx-auto w-full max-w-[1200px] px-4 pb-10 pt-3 sm:px-6 lg:px-8 lg:pb-14">
         <section className="overflow-hidden rounded-[18px] border border-[#e5d6c5] bg-[#f6efe6] shadow-[0_12px_28px_rgba(47,29,18,0.07)]">
           <div className="grid md:min-h-[440px] md:grid-cols-2">
             <div className="relative min-h-[300px] overflow-hidden md:order-1 md:min-h-[440px]">
               <Image src={imagePool[0]} alt="عارضة ترتدي مخور فاخر" fill sizes="(max-width: 768px) 100vw, 50vw" className="object-cover transition-transform duration-300 ease-out hover:scale-[1.02]" priority />
             </div>
 
-            <div className="relative flex flex-col items-center justify-center px-6 py-8 text-center md:px-12 md:py-10">
+            <div className="relative flex flex-col items-center justify-center px-5 py-8 text-center md:px-10 md:py-10">
               <span className="mb-3 text-sm text-[#7a6654]">تشكيلة رمضان 2026</span>
-              <h1 className="text-[2.3rem] font-semibold leading-[1.18] text-[#2f1d12] md:text-[3.55rem]">فخامة تحاكي ذوقك</h1>
+              <h1 className="text-[clamp(1.95rem,8vw,3.35rem)] font-semibold leading-[1.2] text-[#2f1d12]">فخامة تحاكي ذوقك</h1>
               <p className="mt-3 max-w-[34ch] text-[15px] leading-7 text-[#7a6654] md:text-lg md:leading-8">
                 تصاميم راقية من أجمل المخاوير بتفاصيل أنثوية فاخرة تناسب كل إطلالة
               </p>
 
-              <div className="mt-6 flex flex-wrap items-center justify-center gap-2.5">
+              <div className="mt-6 flex w-full flex-col items-stretch justify-center gap-2.5 sm:w-auto sm:flex-row sm:items-center">
                 <Link href="/products" className="inline-flex h-11 min-w-[132px] items-center justify-center rounded-md bg-[#2f1d12] px-6 text-sm font-medium text-[#fbf7f0] transition-all duration-300 ease-out hover:-translate-y-1 hover:bg-[#24150d]">
                   تسوق الآن
                 </Link>
@@ -144,7 +144,7 @@ export default async function Home() {
           {featuredProducts.length === 0 ? (
             <Card className="rounded-[14px] border border-[#e5d6c5] bg-white/80 p-6 text-center text-[#7a6654]">لا توجد منتجات مميزة حالياً.</Card>
           ) : (
-            <div className="mx-auto grid max-w-[1180px] gap-3.5 sm:grid-cols-2 lg:grid-cols-4">
+            <div className="mx-auto grid max-w-[1180px] grid-cols-1 gap-3.5 sm:grid-cols-2 lg:grid-cols-4">
               {featuredProducts.slice(0, 4).map((product, index) => (
                 <Link
                   key={product.id}
@@ -219,7 +219,7 @@ export default async function Home() {
 
         <section className="py-10 md:py-12">
           <SectionTitle>ماذا يقول عملاؤنا</SectionTitle>
-          <div className="grid gap-3.5 md:grid-cols-3">
+          <div className="grid gap-3.5 md:grid-cols-2 xl:grid-cols-3">
             {testimonials.map((item) => (
               <Card key={item.name} className="flex h-full flex-col rounded-[14px] border border-[#e5d6c5] bg-[#fffdfb] p-5 text-center shadow-[0_6px_18px_rgba(47,29,18,0.05)]">
                 <span className="text-3xl leading-none text-[#d8c2a6]">“</span>
@@ -233,7 +233,7 @@ export default async function Home() {
 
         <section className="py-10 md:py-12">
           <SectionTitle>#طرف_تجمعنا</SectionTitle>
-          <div className="grid grid-cols-2 gap-2.5 md:grid-cols-3 lg:grid-cols-6">
+          <div className="grid grid-cols-2 gap-2.5 sm:grid-cols-3 lg:grid-cols-6">
             {imagePool.map((image, index) => (
               <div key={`${image}-${index}`} className="group relative aspect-[4/3] overflow-hidden rounded-xl border border-[#e5d6c5]">
                 <Image
@@ -255,70 +255,17 @@ export default async function Home() {
       </div>
 
       <section className="bg-[#efe4d6] py-6">
-        <div className="mx-auto flex w-full max-w-[1320px] flex-col items-start justify-between gap-4 px-4 sm:px-6 lg:flex-row lg:items-center lg:px-8">
+        <div className="mx-auto flex w-full max-w-[1200px] flex-col items-start justify-between gap-4 px-4 sm:px-6 lg:flex-row lg:items-center lg:px-8">
           <div>
             <h3 className="text-[1.7rem] font-semibold text-[#2f1d12]">اشتركي ليصلك الجديد والعروض الخاصة</h3>
             <p className="mt-1 text-sm text-[#7a6654]">كوني أول من يعرف عن أحدث التصاميم والعروض الحصرية</p>
           </div>
-          <form className="flex w-full max-w-[520px] items-center gap-2">
+          <form className="flex w-full max-w-[520px] flex-col items-stretch gap-2 sm:flex-row sm:items-center">
             <input type="email" placeholder="أدخلي بريدك الإلكتروني" className="h-10 flex-1 rounded-md border border-[#d8c2a6] bg-[#fbf7f0] px-4 text-sm text-[#2f1d12] outline-none" />
             <button type="submit" className="h-10 rounded-md bg-[#2f1d12] px-6 text-sm text-[#fbf7f0]">اشتركي الآن</button>
           </form>
         </div>
       </section>
-
-      <footer className="bg-[#2f1d12] py-8 text-[#efe4d6]">
-        <div className="mx-auto w-full max-w-[1320px] px-4 sm:px-6 lg:px-8">
-          <div className="grid gap-7 lg:grid-cols-[1.25fr_1fr_1fr_1fr_1fr]">
-            <div>
-              <p className="text-[2rem] tracking-[0.2em] [font-family:Georgia,'Times_New_Roman',serif]">TARAF</p>
-              <p className="mt-1 text-xs tracking-[0.28em] text-[#d8c2a6]">MUKHAWAR</p>
-              <p className="mt-3 max-w-[28ch] text-sm leading-7 text-[#d9c6b1]">فخامة خليجية بلمسة عصرية، تصاميمنا صنعت لتليق بذوقك الرفيع.</p>
-            </div>
-
-            <div>
-              <h4 className="mb-2.5 text-sm font-medium text-[#fbf7f0]">المتجر</h4>
-              <ul className="space-y-1.5 text-sm text-[#d9c6b1]">
-                <li>جميع المنتجات</li>
-                <li>مخاوير مناسبات</li>
-                <li>مخاوير يومية</li>
-                <li>جديد الموسم</li>
-              </ul>
-            </div>
-
-            <div>
-              <h4 className="mb-2.5 text-sm font-medium text-[#fbf7f0]">خدمة العملاء</h4>
-              <ul className="space-y-1.5 text-sm text-[#d9c6b1]">
-                <li>سياسة الاسترجاع</li>
-                <li>الشحن والتوصيل</li>
-                <li>الأسئلة الشائعة</li>
-              </ul>
-            </div>
-
-            <div>
-              <h4 className="mb-2.5 text-sm font-medium text-[#fbf7f0]">معلومات</h4>
-              <ul className="space-y-1.5 text-sm text-[#d9c6b1]">
-                <li>من نحن</li>
-                <li>سياسة الخصوصية</li>
-                <li>الشروط والأحكام</li>
-              </ul>
-            </div>
-
-            <div>
-              <h4 className="mb-2.5 text-sm font-medium text-[#fbf7f0]">تواصلي معنا</h4>
-              <ul className="space-y-1.5 text-sm text-[#d9c6b1]">
-                <li>واتساب</li>
-                <li>إنستغرام</li>
-              </ul>
-            </div>
-          </div>
-
-          <div className="mt-6 flex flex-col gap-1.5 border-t border-[#5a4333] pt-3 text-xs text-[#cdb79e] md:flex-row md:items-center md:justify-between">
-            <p>© 2026 TARAF. جميع الحقوق محفوظة.</p>
-            <p>Visa / Apple Pay / STC Pay</p>
-          </div>
-        </div>
-      </footer>
     </StorefrontShell>
   );
 }

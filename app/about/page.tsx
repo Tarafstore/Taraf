@@ -59,9 +59,9 @@ export default function AboutPage() {
               <div className="absolute inset-0 bg-gradient-to-l from-[#f9f4ed]/5 to-[#2f1d12]/15" aria-hidden="true" />
             </div>
 
-            <div className="flex items-center justify-center p-7 md:p-10">
+            <div className="flex items-center justify-center p-6 md:p-10">
               <div className="max-w-[430px] text-center text-[#3a2a1d]">
-                <h1 className="text-4xl font-medium leading-tight md:text-5xl">من نحن</h1>
+                <h1 className="text-[clamp(2rem,7vw,3rem)] font-medium leading-tight">من نحن</h1>
                 <GoldDivider />
                 <p className="text-base leading-8 text-[#665548] md:text-lg">
                   ترف (TARAF) علامة عربية متخصصة في المخاوير الراقية، نقدم تصاميم تجمع بين الأناقة المعاصرة والتفاصيل الرفيعة لتمنحك
@@ -74,7 +74,7 @@ export default function AboutPage() {
 
         <section className="overflow-hidden rounded-[30px] border border-[#e2d6c8] bg-[#fbf7f0] shadow-[0_10px_30px_-26px_rgba(47,29,18,0.35)]">
           <div className="grid md:grid-cols-2">
-            <article className="flex items-center p-7 md:p-10 lg:p-12">
+            <article className="flex items-center p-6 md:p-10 lg:p-12">
               <div className="mx-auto max-w-[440px] text-[#3a2a1d]">
                 <h2 className="text-center text-3xl font-medium">قصتنا</h2>
                 <GoldDivider />
@@ -94,7 +94,7 @@ export default function AboutPage() {
         <section className="rounded-[30px] border border-[#e2d6c8] bg-[#fbf7f0] p-6 shadow-[0_10px_30px_-26px_rgba(47,29,18,0.35)] md:p-8">
           <h2 className="text-center text-3xl font-medium text-[#3a2a1d]">لماذا ترف؟</h2>
           <GoldDivider />
-          <div className="grid gap-4 md:grid-cols-3">
+          <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
             {reasons.map((reason) => (
               <article
                 key={reason.title}
@@ -115,7 +115,7 @@ export default function AboutPage() {
 
         <section className="relative overflow-hidden rounded-[30px] border border-[#e2d6c8] bg-[#f7f1e8] p-8 text-center shadow-[0_10px_30px_-26px_rgba(47,29,18,0.35)] md:p-10">
           <div className="pointer-events-none absolute -bottom-10 left-0 h-36 w-36 rounded-full bg-[#efe4d6]/70 blur-2xl" aria-hidden="true" />
-          <h2 className="text-4xl font-medium text-[#3a2a1d]">اكتشفي مجموعتنا</h2>
+          <h2 className="text-[clamp(2rem,7vw,2.25rem)] font-medium text-[#3a2a1d]">اكتشفي مجموعتنا</h2>
           <p className="mx-auto mt-3 max-w-2xl text-base leading-8 text-[#665548] md:text-lg">تسوّقي أحدث تصاميم المخاوير الراقية المصممة لك.</p>
           <Link
             href="/products"

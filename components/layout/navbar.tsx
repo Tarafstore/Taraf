@@ -71,6 +71,10 @@ export function Navbar({ links, className }: NavbarProps) {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  useEffect(() => {
+    setMobileOpen(false);
+  }, [pathname]);
+
   return (
     <header
       className={cn(
@@ -79,13 +83,13 @@ export function Navbar({ links, className }: NavbarProps) {
         className,
       )}
     >
-      <div className="h-[30px] border-b border-[#e5d6c5] bg-[#efe4d6] text-center text-[11px] leading-[30px] tracking-[0.02em] text-[#7a6654]">
+      <div className="border-b border-[#e5d6c5] bg-[#efe4d6] px-4 py-1.5 text-center text-[10px] leading-5 tracking-[0.02em] text-[#7a6654] sm:text-[11px] sm:leading-6">
         شحن سريع لجميع دول الخليج • تصاميم حصرية • جودة استثنائية
       </div>
 
-      <div className="mx-auto w-full max-w-[1320px] px-4 sm:px-6 lg:px-8">
-        <div className="grid h-[68px] grid-cols-[1fr_auto_1fr] items-center">
-          <div className="hidden items-center gap-1.5 text-[#2f1d12] md:flex">
+      <div className="mx-auto w-full max-w-[1200px] px-4 sm:px-6 lg:px-8">
+        <div className="grid min-h-[64px] grid-cols-[1fr_auto_1fr] items-center gap-2">
+          <div className="hidden items-center gap-1 text-[#2f1d12] lg:flex">
             {utilityLinks.map((item) => (
               <Link
                 key={item.label}
@@ -99,11 +103,14 @@ export function Navbar({ links, className }: NavbarProps) {
           </div>
 
           <Link href="/" className="text-center leading-none text-[#2f1d12]" aria-label="TARAF MUKHAWAR">
-            <p className="text-[33px] tracking-[0.23em] [font-family:Georgia,'Times_New_Roman',serif] md:text-[36px]">TARAF</p>
+            <p className="text-[28px] tracking-[0.2em] [font-family:Georgia,'Times_New_Roman',serif] sm:text-[31px] lg:text-[34px]">TARAF</p>
             <p className="mt-0.5 text-[9px] uppercase tracking-[0.34em] text-[#7a6654]">MUKHAWAR</p>
           </Link>
 
-          <div className="flex items-center justify-end gap-2 md:hidden">
+          <div className="flex items-center justify-end gap-1.5 lg:hidden">
+            <Link href="/products" aria-label="البحث" className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-[#e5d6c5] text-[#2f1d12] sm:hidden">
+              <UtilityIcon type="search" />
+            </Link>
             <button
               type="button"
               onClick={() => setMobileOpen((prev) => !prev)}
@@ -122,7 +129,7 @@ export function Navbar({ links, className }: NavbarProps) {
             </Link>
           </div>
 
-          <nav className="hidden items-center justify-end gap-8 text-[14px] text-[#2f1d12] md:flex" aria-label="روابط الموقع">
+          <nav className="hidden items-center justify-end gap-5 text-[13px] text-[#2f1d12] lg:flex xl:gap-8 xl:text-[14px]" aria-label="روابط الموقع">
             {links.map((link) => {
               const active = pathname === link.href;
 
@@ -144,8 +151,8 @@ export function Navbar({ links, className }: NavbarProps) {
         <nav
           id="storefront-mobile-nav"
           className={cn(
-            'grid overflow-hidden border-t border-[#e5d6c5] text-[#2f1d12] transition-all duration-300 ease-out md:hidden',
-            mobileOpen ? 'max-h-80 py-2.5 opacity-100' : 'max-h-0 py-0 opacity-0',
+            'grid overflow-hidden border-t border-[#e5d6c5] text-[#2f1d12] transition-all duration-300 ease-out lg:hidden',
+            mobileOpen ? 'max-h-[420px] py-2.5 opacity-100' : 'max-h-0 py-0 opacity-0',
           )}
           aria-label="روابط الموقع للجوال"
         >
@@ -156,7 +163,7 @@ export function Navbar({ links, className }: NavbarProps) {
                 href={link.href}
                 onClick={() => setMobileOpen(false)}
                 className={cn(
-                  'block rounded-md px-3 py-2.5 text-sm',
+                  'block rounded-md px-3 py-3 text-sm',
                   pathname === link.href ? 'bg-[#efe4d6] text-[#2f1d12]' : 'hover:bg-[#f3eadf]',
                 )}
               >

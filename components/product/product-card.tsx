@@ -12,7 +12,7 @@ export function ProductCard({ product }: ProductCardProps) {
   const imageUrl = getProductPrimaryImage(product);
 
   return (
-    <Link href={`/products/${product.slug}`} className="group block">
+    <Link href={`/products/${product.slug}`} className="group block sm:max-w-none">
       <Card className="h-full overflow-hidden rounded-soft border border-line/80 bg-surface shadow-[0_6px_20px_rgba(40,27,16,0.05)] transition-transform duration-300 group-hover:-translate-y-0.5">
         <div className="relative aspect-[4/5] bg-surface-2">
           <img

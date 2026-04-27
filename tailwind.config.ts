@@ -35,7 +35,7 @@ const config: Config = {
         'title-ar': ['1.5rem', { lineHeight: '1.35' }],
       },
       maxWidth: {
-        container: '1520px',
+        container: '1200px',
       },
       boxShadow: {
         card: '0 1px 0 rgba(0,0,0,0.04)',

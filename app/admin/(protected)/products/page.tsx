@@ -52,7 +52,7 @@ export default async function AdminProductsPage({ searchParams }: ProductsPagePr
       ) : null}
 
       <Card className="p-4">
-        <form className="grid gap-3 md:grid-cols-5">
+        <form className="grid gap-3 md:grid-cols-2 xl:grid-cols-5">
           <Input name="search" defaultValue={params.search ?? ''} placeholder="بحث بالاسم / الرابط / رمز المنتج / التصنيف" />
           <Select name="category" defaultValue={params.category ?? 'all'}>
             <option value="all">كل التصنيفات</option>
@@ -81,7 +81,7 @@ export default async function AdminProductsPage({ searchParams }: ProductsPagePr
               </option>
             ))}
           </Select>
-          <div className="md:col-span-5 flex gap-2">
+          <div className="flex flex-wrap gap-2 md:col-span-2 xl:col-span-5">
             <Button type="submit">تطبيق الفلاتر</Button>
             <Link href="/admin/products">
               <Button type="button" variant="secondary">
@@ -97,7 +97,7 @@ export default async function AdminProductsPage({ searchParams }: ProductsPagePr
           <div className="p-8 text-center text-sm text-ink-soft">لا توجد منتجات مطابقة.</div>
         ) : (
           <div className="overflow-x-auto">
-            <table className="min-w-[1300px] w-full text-right text-sm">
+            <table className="min-w-[980px] w-full text-right text-sm">
               <thead className="bg-surface-muted text-ink-soft">
                 <tr>
                   <th className="px-3 py-3">الصورة</th>
@@ -149,7 +149,7 @@ export default async function AdminProductsPage({ searchParams }: ProductsPagePr
                       <td className="px-3 py-3">{product.is_featured ? 'نعم' : 'لا'}</td>
                       <td className="px-3 py-3 text-ink-soft">{new Date(product.created_at).toLocaleDateString('ar-SA')}</td>
                       <td className="px-3 py-3">
-                        <div className="flex gap-2">
+                        <div className="flex flex-wrap gap-2">
                           <Link href={`/admin/products/${product.id}/edit`}>
                             <Button variant="secondary">تعديل المنتج</Button>
                           </Link>
