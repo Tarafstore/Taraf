@@ -12,9 +12,9 @@
   --color-brand-soft: #b5a793;
   --color-line: #ddd2c6;
 
-  --space-container-x: 1.5rem;
-  --space-section-sm: 2.5rem;
-  --space-section: 4rem;
+  --space-container-x: 1rem;
+  --space-section-sm: 2rem;
+  --space-section: 3.25rem;
 }
 
 * {
@@ -22,12 +22,12 @@
 }
 
 body {
-  @apply bg-canvas text-ink antialiased;
+  @apply bg-canvas text-ink antialiased overflow-x-hidden;
 }
 
 @layer components {
   .container-base {
-    @apply mx-auto w-full max-w-container px-container-x;
+    @apply mx-auto w-full max-w-[1200px] px-4 sm:px-6 lg:px-8;
   }
 
   .section-y {

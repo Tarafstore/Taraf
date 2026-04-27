@@ -26,7 +26,7 @@ export default async function CollectionDetailsPage({ params }: CollectionDetail
             <div className="relative min-h-[220px] md:min-h-[280px]">
               <Image src={getCollectionPrimaryImage(collection)} alt={collection.name} fill sizes="(max-width: 768px) 100vw, 50vw" className="object-cover" priority />
             </div>
-            <div className="flex items-center justify-center p-6 text-center">
+            <div className="flex items-center justify-center p-5 text-center md:p-6">
               <div>
                 <h1 className="text-2xl font-semibold text-[#2f1d12] md:text-3xl">{collection.name}</h1>
                 {collection.description && <p className="mt-3 text-sm leading-7 text-[#7a6654] md:text-base">{collection.description}</p>}
@@ -38,7 +38,7 @@ export default async function CollectionDetailsPage({ params }: CollectionDetail
         {products.length === 0 ? (
           <Card className="rounded-[14px] border border-[#e5d6c5] bg-white/80 p-6 text-center text-[#7a6654]">لا توجد منتجات ضمن هذه المجموعة حالياً.</Card>
         ) : (
-          <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4 lg:gap-4">
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 lg:gap-4">
             {products.map((product) => (
               <ProductCard key={product.id} product={product} />
             ))}
